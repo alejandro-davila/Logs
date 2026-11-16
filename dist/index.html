@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>Rosebud Post Oak</title>
+<meta name="description" content="Seasoned Texas post oak firewood from our ranch in Rosebud, TX. 20 split logs, tied, $30. Pickup in 78717 or free delivery nearby.">
+<style>
+:root{color-scheme:dark;--bg:#1d1612;--panel:#2a201a;--ink:#fff5e6;--muted:#ddd0c2;--gold:#ffb35c;--line:#6b5444}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,sans-serif}
+.masthead,main,.package,.services{width:min(1440px,calc(100% - 64px));margin-inline:auto}
+.masthead{min-height:92px;display:flex;align-items:center;justify-content:space-between;gap:18px;border-bottom:1px solid #4a3a2f;font-weight:750}
+.brand-wrap{display:flex;align-items:center;gap:14px}
+.logo{width:clamp(52px,6vw,72px);height:auto;aspect-ratio:1;flex-shrink:0}
+.brand-block{display:flex;flex-direction:column;line-height:1.15;padding:10px 0}
+.brand{font-family:Georgia,serif;font-weight:500;font-size:clamp(1.35rem,2.4vw,2rem);letter-spacing:-.01em}
+.brand em{color:var(--gold)}
+.brand-tag{color:var(--muted);font-weight:500;font-size:clamp(.8rem,1.1vw,.95rem);font-style:italic;margin-top:2px}
+.masthead a,.contact a{color:var(--gold);text-decoration:none;white-space:nowrap}
+.eyebrow{color:var(--gold);font-size:.75rem;font-weight:750;letter-spacing:.13em;text-transform:uppercase;margin-top:0}
+h1,h2,h3{font-family:Georgia,serif;font-weight:500;line-height:1.05}
+h1{font-size:clamp(3rem,6.5vw,6rem);letter-spacing:-.05em;margin:8px 0 18px}
+h2{font-size:clamp(1.7rem,3vw,2.45rem);margin:0 0 18px}
+.intro{max-width:36ch;color:var(--muted);font-size:clamp(1.03rem,1.5vw,1.22rem)}
+.services{padding:clamp(24px,4vw,48px) 0;border-bottom:1px solid #4a3a2f}
+.services>p{color:var(--muted);max-width:60ch}
+.service-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:20px}
+.service{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px;display:flex;flex-direction:column}
+.service h3{font-size:1.35rem;margin:0 0 8px}
+.service .price{font-family:Georgia,serif;color:var(--gold);font-size:2rem;margin:0 0 6px}
+.service p{color:var(--muted);margin:0 0 10px}
+.service a{margin-top:auto;display:block;text-align:center;border:1px solid var(--gold);border-radius:6px;padding:10px;color:var(--gold);font-weight:750;text-decoration:none}
+.reach{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,3fr);gap:clamp(20px,4vw,48px);align-items:center;margin:28px 0 8px}
+.reach img{display:block;width:100%;max-height:560px;object-fit:cover;border-radius:12px;border:1px solid var(--line)}
+.reach h3{font-size:clamp(2rem,4.5vw,3.6rem);letter-spacing:-.03em;margin:0 0 14px;color:var(--gold)}
+.reach p{color:var(--muted);font-size:clamp(1rem,1.4vw,1.15rem);max-width:42ch;margin:0 0 12px}
+main{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,3fr);align-items:start;gap:clamp(24px,4vw,60px);padding:clamp(24px,3vw,40px) 0 clamp(42px,7vw,96px)}
+.uses{list-style:none;margin:24px 0 0;padding:0;color:var(--muted)}
+.uses li{border-top:1px solid #4a3a2f;padding:10px 0}
+.uses strong{color:var(--gold)}
+.how{margin-top:24px;background:var(--panel);border:1px solid var(--line);border-radius:12px}
+.how summary{list-style:none;cursor:pointer;text-align:center;padding:14px 16px;color:var(--gold);font-weight:750;font-size:1.1rem}
+.how summary::-webkit-details-marker{display:none}
+.how summary::after{content:" ▾"}
+.how[open] summary::after{content:" ▴"}
+.how-body{padding:0 clamp(16px,3vw,24px) 20px;color:var(--muted)}
+.how-body h3{font-family:system-ui,sans-serif;font-weight:700;color:var(--ink);font-size:1.05rem;margin:18px 0 6px}
+.how-body ol{padding-left:1.2em;margin:0}
+.how-body li{margin:6px 0}
+.how-body img{display:block;width:100%;max-height:340px;object-fit:cover;border-radius:8px;margin-top:12px}
+form{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:clamp(16px,4vw,28px)}
+fieldset{border:0;padding:0;margin:18px 0;min-width:0}
+legend,label[for]{font-weight:700}
+input[type=text],input[type=number],input[type=tel]{display:block;width:100%;background:var(--bg);border:1px solid var(--line);border-radius:5px;padding:11px;color:var(--ink);font:inherit;margin-top:6px}
+.options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:6px}
+.option{cursor:pointer;border:1px solid var(--line);border-radius:6px;display:block}
+.option:has(input:checked){outline:2px solid var(--gold);outline-offset:-2px}
+.option span{display:flex;align-items:center;gap:6px;padding:11px;font-weight:650}
+input[type=radio]{accent-color:var(--gold);margin:0;flex-shrink:0}
+.stepper{display:flex;align-items:center;gap:10px;margin-top:6px}
+.stepper button{width:48px;height:48px;padding:0;font-size:1.4rem}
+.stepper input{margin:0;text-align:center;font-size:1.2rem;max-width:110px}
+button{border:0;border-radius:6px;padding:12px 16px;background:var(--gold);color:#1d1612;font:inherit;font-weight:750;cursor:pointer;width:100%}
+:focus-visible{outline:2px solid white;outline-offset:3px}
+.note{font-size:.9rem;color:var(--muted);margin-bottom:0}
+.total{margin-top:18px;padding:14px;background:var(--bg);border-radius:8px}
+.total p{margin:0 0 6px}.total p:last-child{margin:0}
+.total .big{font-family:Georgia,serif;font-size:2.2rem;color:var(--gold);line-height:1.1}
+.warn{color:#ffd0a0}
+#next-step{margin-top:16px}
+#order-request{width:100%;min-height:7em;padding:10px;font:inherit;background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:6px;margin-top:6px}
+.send-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:12px 0}
+.send-actions a{display:block;text-align:center;border-radius:6px;padding:12px 16px;background:var(--gold);color:#1d1612;font-weight:750;text-decoration:none}
+.send-actions a.secondary{background:transparent;color:var(--gold);border:1px solid var(--gold)}
+#copy-request{background:transparent;color:var(--gold);border:1px solid var(--line)}
+.promise{margin:14px 0 0;padding:12px 14px;border:1px solid var(--gold);border-radius:8px}
+.promise strong{color:var(--gold)}
+.package{display:flex;justify-content:space-between;gap:12px 24px;flex-wrap:wrap;padding:22px 0 32px;border-top:1px solid #4a3a2f;color:var(--muted)}
+.package strong{color:var(--gold)}
+[hidden]{display:none!important}
+@media(max-width:1100px){.service-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:760px){
+  .masthead,main,.package,.services{width:calc(100% - 32px)}
+  .masthead{min-height:62px;font-size:.88rem;flex-wrap:wrap;padding:10px 0;gap:4px 18px}
+  main,.reach{grid-template-columns:1fr;gap:24px}
+  main{padding:32px 0}
+  .reach img{max-height:460px}
+}
+@media(max-width:520px){.service-grid,.options,.send-actions{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header class="masthead">
+<span class="brand-wrap"><img class="logo" src="favicon.svg" width="72" height="72" alt="Rosebud Post Oak logo, the end of a log with growth rings"><span class="brand-block"><span class="brand">Rosebud <em>Post Oak</em></span><span class="brand-tag">Seasoned Texas firewood from our ranch</span></span></span>
+<span class="contact"><a href="sms:+17373259530">Text 737-325-9530</a> · <a href="#bundles">Bundles</a> · <a href="#order-form">Order</a></span>
+</header>
+
+<section class="services" id="bundles" aria-labelledby="bundles-title">
+<p class="eyebrow">Avery Ranch · Brushy Creek · Cedar Park · Round Rock</p>
+<h2 id="bundles-title">Cold front coming? 🥶 Stay warm with Texas post oak.</h2>
+<p>Seasoned post oak, split, dry and ready to burn. It burns hot and long, so it's perfect for cozy nights by the fireplace, the fire pit or the smoker.</p>
+<div class="service-grid">
+<div class="service"><h3>Fire pit bundle</h3><p class="price">$30</p><p>20 split logs, tied with a handle so you can grab it and go. Fits in any car trunk.</p><a href="#order-form">Order bundles</a></div>
+<div class="service"><h3>3 bundle deal</h3><p class="price">$80</p><p>60 logs for the weekend, or for a few cold nights in a row. You save $10.</p><a href="#order-form">Order 3 bundles</a></div>
+<div class="service"><h3>Pickup</h3><p class="price">78717</p><p>Pick up in Avery Ranch / Brushy Creek. Text us and we'll set out your bundles.</p><a href="sms:+17373259530?&body=Hi!%20I%E2%80%99d%20like%20to%20pick%20up%20firewood.">Text to pick up</a></div>
+<div class="service"><h3>Free delivery</h3><p class="price">3+ bundles</p><p>Free delivery within 5 miles of 78717 when you order 3 or more bundles.</p><a href="#order-form">Order delivery</a></div>
+</div>
+<div class="reach">
+<img src="woods.jpeg" width="900" height="1200" loading="lazy" alt="Tall post oak trees on the ranch in Rosebud, Texas, with a boom lift working in the canopy">
+<div><h3>Cut on our ranch in Rosebud, TX.</h3><p>Every log comes from the post oak woods on our family ranch. We trim and clear it ourselves, split it, season it and tie it into bundles.</p><p>Same wood the Texas BBQ joints use, without paying online shipping prices.</p></div>
+</div>
+</section>
+
+<main>
+<section aria-labelledby="headline">
+<h1 id="headline">Post oak, tied and ready.</h1>
+<p class="intro">20 seasoned split logs for $30. Grab a bundle on the way home and light it up tonight.</p>
+<ul class="uses">
+<li><strong>Fireplace</strong> · Burns hot and long on cold nights.</li>
+<li><strong>Fire pit</strong> · One bundle is about 2 to 3 nights around the fire.</li>
+<li><strong>Smoker</strong> · Classic Texas BBQ wood for brisket, ribs and pork butts.</li>
+<li><strong>Camping</strong> · Fits in the trunk next to the cooler.</li>
+</ul>
+<details class="how">
+<summary>Why post oak?</summary>
+<div class="how-body">
+<p>Post oak is the hardwood Central Texas is known for. It's dense, so it burns hot and slow, makes good coals and doesn't throw many sparks. It's also the wood Texas BBQ is built on.</p>
+<img src="bark.jpeg" width="900" height="1200" loading="lazy" alt="Close up of a post oak on the ranch with rough gray bark, lobed leaves and a mourning dove on a branch">
+<h3>How to order</h3>
+<ol>
+<li><strong>Pick how many bundles.</strong> Use the order box to see your total.</li>
+<li><strong>Choose pickup or delivery.</strong> Delivery is free within 5 miles on 3 or more bundles.</li>
+<li><strong>Text us your order.</strong> We'll confirm a time.</li>
+<li><strong>Pay when you get your wood.</strong></li>
+</ol>
+</div>
+</details>
+</section>
+
+<form id="order-form" aria-labelledby="order-title" novalidate>
+<h2 id="order-title">Order firewood</h2>
+<label for="bundles">How many bundles? (20 logs each)</label>
+<div class="stepper">
+<button type="button" id="minus" aria-label="One less bundle">−</button>
+<input type="number" id="bundles" name="bundles" min="1" max="50" step="1" value="1" inputmode="numeric">
+<button type="button" id="plus" aria-label="One more bundle">+</button>
+</div>
+<fieldset>
+<legend>Pickup or delivery?</legend>
+<div class="options">
+<label class="option"><span><input type="radio" name="method" value="pickup" checked> Pickup in 78717</span></label>
+<label class="option"><span><input type="radio" name="method" value="delivery"> Delivery (3+ bundles)</span></label>
+</div>
+</fieldset>
+<div id="delivery-details" hidden>
+<label for="address">Delivery address</label>
+<input id="address" name="address" type="text" autocomplete="street-address" placeholder="Street, city and ZIP">
+</div>
+<fieldset>
+<label for="name">Your name</label>
+<input id="name" name="name" type="text" autocomplete="name">
+</fieldset>
+<label for="when">Best day and time</label>
+<input id="when" name="when" type="text" placeholder="Example: Saturday morning">
+
+<div class="total" role="status" aria-live="polite">
+<p class="big" id="total">$30</p>
+<p id="breakdown">1 bundle · 20 logs</p>
+<p id="delivery-note" class="warn" hidden></p>
+</div>
+
+<div id="next-step">
+<p class="note">Send us your order and we'll confirm a time.</p>
+<div class="send-actions">
+<a id="text-request" href="sms:+17373259530">Text your order</a>
+<a id="email-request" class="secondary" href="mailto:AlejandroDavila@me.com">Email your order</a>
+</div>
+<label for="order-request">Your order</label>
+<textarea id="order-request" readonly></textarea>
+<button type="button" id="copy-request">Copy order</button>
+<p class="note" id="copy-status" role="status"></p>
+</div>
+<p class="promise"><strong>Pay when you get your wood.</strong> No deposits and no surprise fees.</p>
+</form>
+</main>
+
+<footer class="package">
+<strong>Every bundle</strong>
+<span>20 seasoned post oak logs</span>
+<span>Tied with a carry handle</span>
+<span>$30, or 3 for $80</span>
+<span>Free delivery within 5 miles on 3+</span>
+<span class="contact"><strong>Contact</strong> Please text: <a href="sms:+17373259530">737-325-9530</a>. I'm probably splitting wood, so a text is faster than a call. 🪓</span>
+</footer>
+
+<script>
+const PRICE = 30, DEAL_SIZE = 3, DEAL_PRICE = 80, DELIVERY_MIN = 3, LOGS = 20;
+const form = document.querySelector('#order-form');
+const bundles = document.querySelector('#bundles');
+const deliveryDetails = document.querySelector('#delivery-details');
+const deliveryNote = document.querySelector('#delivery-note');
+const request = document.querySelector('#order-request');
+const copyStatus = document.querySelector('#copy-status');
+const money = n => '$' + n.toLocaleString('en-US');
+
+function count() {
+  const n = Math.round(Number(bundles.value));
+  return Number.isFinite(n) ? Math.min(50, Math.max(1, n)) : 1;
+}
+function priceFor(n) {
+  return Math.floor(n / DEAL_SIZE) * DEAL_PRICE + (n % DEAL_SIZE) * PRICE;
+}
+function update() {
+  const n = count();
+  const delivery = form.elements.method.value === 'delivery';
+  const total = priceFor(n);
+  const saved = n * PRICE - total;
+  deliveryDetails.hidden = !delivery;
+  document.querySelector('#total').textContent = money(total);
+  document.querySelector('#breakdown').textContent =
+    n + (n === 1 ? ' bundle' : ' bundles') + ' · ' + n * LOGS + ' logs'
+    + (saved ? ' · you save ' + money(saved) : '')
+    + (delivery && n >= DELIVERY_MIN ? ' · free delivery' : '');
+  deliveryNote.hidden = !(delivery && n < DELIVERY_MIN);
+  deliveryNote.textContent = 'Delivery starts at ' + DELIVERY_MIN + ' bundles. Add '
+    + (DELIVERY_MIN - n) + ' more, or choose pickup.';
+
+  const name = form.elements.name.value.trim();
+  const when = form.elements.when.value.trim();
+  const address = form.elements.address.value.trim();
+  let text = 'Hi! I’d like ' + n + ' firewood ' + (n === 1 ? 'bundle' : 'bundles')
+    + ' (' + n * LOGS + ' logs) for ' + money(total) + ', '
+    + (delivery ? 'delivered to ' + (address || '[my address]') : 'for pickup in 78717') + '.';
+  if (when) text += '\nBest time: ' + when;
+  if (name) text += '\nName: ' + name;
+  request.value = text;
+  const body = encodeURIComponent(text);
+  document.querySelector('#text-request').href = 'sms:+17373259530?&body=' + body;
+  document.querySelector('#email-request').href = 'mailto:AlejandroDavila@me.com?subject='
+    + encodeURIComponent('Firewood order') + '&body=' + body;
+  copyStatus.textContent = '';
+}
+document.querySelector('#minus').addEventListener('click', () => { bundles.value = Math.max(1, count() - 1); update(); });
+document.querySelector('#plus').addEventListener('click', () => { bundles.value = Math.min(50, count() + 1); update(); });
+bundles.addEventListener('change', () => { bundles.value = count(); update(); });
+form.addEventListener('input', update);
+form.addEventListener('submit', e => e.preventDefault());
+for (const a of document.querySelectorAll('a[href="#order-form"]')) {
+  a.addEventListener('click', () => {
+    if (a.textContent.includes('3')) { bundles.value = 3; }
+    if (a.textContent.includes('delivery')) { form.elements.method.value = 'delivery'; if (count() < 3) bundles.value = 3; }
+    update();
+  });
+}
+document.querySelector('#copy-request').addEventListener('click', async () => {
+  try {
+    await navigator.clipboard.writeText(request.value);
+    copyStatus.textContent = 'Order copied.';
+  } catch {
+    request.select();
+    copyStatus.textContent = 'Order selected. Use your device’s copy command.';
+  }
+});
+update();
+</script>
+</body>
+</html>
