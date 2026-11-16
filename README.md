@@ -1,4 +1,4 @@
-# Rosebud Post Oak
+# Knotty by Nature Firewood Co.
 
 Firewood site: seasoned Texas post oak from the ranch in Rosebud, TX, sold in 20 log bundles.
 

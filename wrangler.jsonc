@@ -1,6 +1,6 @@
 {
   // Cloudflare Worker that serves the static firewood site in dist/
-  "name": "rosebudpostoak",
+  "name": "knottybynature",
   "compatibility_date": "2026-10-01",
   "assets": { "directory": "./dist" }
 }
