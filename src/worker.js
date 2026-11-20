@@ -69,14 +69,19 @@ async function saveOrder(req, env, ctx, url) {
 }
 
 // Push alert to Alejandro's phone (ntfy app, subscribed to the secret topic).
-// Keeps the customer's name and address out of the alert; tap opens the orders page.
+// Shows the customer's name, phone, address, time and notes; tap opens the orders page.
 async function notify(env, o, origin) {
   if (!env.NTFY_TOPIC) return;
-  const where = o.method === 'delivery' ? 'Delivery' : 'Pickup';
   try {
     await fetch('https://ntfy.sh/' + env.NTFY_TOPIC, {
       method: 'POST',
-      body: `${o.label} · $${o.total}\n${where} · pays by ${o.pay}`,
+      body: [
+        `${o.label} · $${o.total} · pays by ${o.pay}`,
+        `${o.name} · ${o.phone}`,
+        o.method === 'delivery' ? `Deliver to: ${o.address}` : 'Pickup in 78717',
+        o.when && `When: ${o.when}`,
+        o.notes && `Notes: ${o.notes}`,
+      ].filter(Boolean).join('\n'),
       headers: {
         Title: `New order ${o.id}`,
         Tags: 'wood',
