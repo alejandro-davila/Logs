@@ -1,6 +1,9 @@
 {
-  // Cloudflare Worker that serves the static firewood site in dist/
+  // Cloudflare Worker: serves the static firewood site in dist/,
+  // takes online orders (/api/order) and shows them to Alejandro (/orders?key=...)
   "name": "knottybynature",
+  "main": "src/worker.js",
   "compatibility_date": "2026-10-01",
-  "assets": { "directory": "./dist" }
+  "assets": { "directory": "./dist", "binding": "ASSETS" },
+  "kv_namespaces": [{ "binding": "ORDERS", "id": "65e6b6e693dc4002bb517dd13bd9ebbf" }]
 }

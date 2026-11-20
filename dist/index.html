@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Knotty by Nature Firewood Co.</title>
-<meta name="description" content="Seasoned Texas post oak firewood from our ranch in Rosebud, TX. 20 split logs, tied, $30. Pickup in 78717 or free delivery nearby.">
+<meta name="description" content="Seasoned Texas post oak firewood from our ranch in Rosebud, TX. 5 split logs per bundle, $8. Pickup in 78717 or free delivery nearby on 10+ bundles.">
 <link rel="icon" type="image/png" href="favicon.png">
 <style>
 :root{--paper:#f6efe3;--ink:#2a1d14;--muted:#6e5a4a;--ember:#c8501e;--card:#fffaf2;--line:#e2d4c0}
@@ -24,6 +24,12 @@ nav{display:flex;justify-content:space-between;align-items:center;padding:18px 0
 h1,h2{font-family:Georgia,serif;font-weight:500;letter-spacing:-.02em;line-height:1.05}
 h1{font-size:clamp(2.6rem,7vw,5rem);margin:14px 0 12px}
 .hero p{font-size:1.15rem;margin:0 0 22px;color:#f3e6d6}
+.pay{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:14px;color:var(--muted);font-size:.95rem}
+.pay-center{justify-content:center}
+.pay-btn{display:inline-block;border:2px solid var(--ember);color:var(--ember);text-decoration:none;font-weight:700;padding:10px 18px;border-radius:999px}
+.order .pay-btn{color:#ffb07a;border-color:#ffb07a}
+.order .pay a{color:#ffb07a}
+button.cta{border:0;font:inherit;font-weight:700;cursor:pointer}
 .cta{display:inline-block;background:var(--ember);color:#fff;text-decoration:none;font-weight:700;padding:14px 22px;border-radius:999px}
 section{padding:clamp(40px,7vw,80px) 0}
 h2{font-size:clamp(2rem,4vw,3rem);margin:0 0 8px}
@@ -46,10 +52,32 @@ h2{font-size:clamp(2rem,4vw,3rem);margin:0 0 8px}
 .counter{display:flex;justify-content:center;align-items:center;gap:14px;margin:0 0 10px}
 .counter button{width:52px;height:52px;border-radius:50%;border:2px solid var(--ember);background:transparent;color:#fff;font-size:1.5rem;cursor:pointer}
 .counter output{font-family:Georgia,serif;font-size:2.4rem;min-width:2ch}
+.logs{color:#d9c9b6;margin:0 0 6px}
 .total{font-size:1.2rem;margin-bottom:22px}
 .total b{color:#ffb07a}
 footer{padding:28px 0 40px;color:var(--muted);font-size:.95rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
-@media(max-width:820px){.cards,.split{grid-template-columns:1fr}.hero{min-height:440px}}
+.kit .kit-row{display:grid;grid-template-columns:auto 1fr;gap:clamp(20px,5vw,56px);align-items:start;margin-bottom:22px}
+dialog{border:0;border-radius:20px;padding:0;width:min(520px,calc(100% - 24px));max-height:calc(100% - 24px);background:var(--card);color:var(--ink)}
+dialog::backdrop{background:rgba(20,12,6,.6)}
+.ck{padding:24px clamp(18px,4vw,30px)}
+.ck h2{font-size:2rem;margin:0 0 4px}
+.ck .sum{color:var(--ember);font-weight:700;margin:0 0 16px}
+.ck label{display:block;font-weight:600;font-size:.92rem;margin:12px 0 4px}
+.ck label small{font-weight:400;color:var(--muted)}
+.ck input[type=text],.ck input[type=tel],.ck input[type=email],.ck textarea,.ck select{width:100%;font:inherit;padding:11px 12px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink)}
+.ck textarea{min-height:64px;resize:vertical}
+.seg{display:flex;flex-wrap:wrap;gap:8px}
+.seg label{margin:0;font-weight:600;border:2px solid var(--line);border-radius:999px;padding:8px 14px;cursor:pointer;background:#fff}
+.seg input{position:absolute;opacity:0;pointer-events:none}
+.seg label:has(input:checked){border-color:var(--ember);color:var(--ember)}
+.seg label:has(input:focus-visible){outline:2px solid var(--ember);outline-offset:2px}
+.hint{color:var(--muted);font-size:.88rem;margin:6px 0 0}
+.err{color:#a3261b;font-weight:600;min-height:1.2em;margin:12px 0 0}
+.ck .row{display:flex;gap:10px;align-items:center;justify-content:space-between;margin-top:18px;flex-wrap:wrap}
+.linkbtn{background:none;border:0;color:var(--muted);font:inherit;text-decoration:underline;cursor:pointer}
+.ck .pay-btn{margin:6px 8px 0 0}
+.hp{position:absolute;left:-9999px}
+@media(max-width:820px){.cards,.split,.kit .kit-row{grid-template-columns:1fr}.hero{min-height:440px}}
 </style>
 </head>
 <body>
@@ -63,17 +91,17 @@ footer{padding:28px 0 40px;color:var(--muted);font-size:.95rem;display:flex;just
 <div class="hero-body">
 <span class="tag">🥶 Cold front coming?</span>
 <h1>Seasoned Texas post oak, tied and ready.</h1>
-<p>Cut on our ranch in Rosebud, TX. 20 split logs for $30. Pickup in 78717.</p>
+<p>Cut on our ranch in Rosebud, TX. 5 split logs for $8. Pickup in 78717.</p>
 <a class="cta" href="#order">Order a bundle</a>
 </div>
 </header>
 
 <section>
 <h2>Simple pricing</h2>
-<p class="lede">Every bundle is 20 seasoned post oak logs, tied with a carry handle. Fits in any car trunk.</p>
+<p class="lede">Every bundle is 5 seasoned post oak logs. Easy to carry, and fits in any car trunk.</p>
 <div class="cards">
-<div class="card"><h3>One bundle</h3><div class="price">$30</div><p>20 logs. About 2 to 3 nights around the fire pit.</p></div>
-<div class="card best"><span class="badge">Best deal</span><h3>Three bundles</h3><div class="price">$80</div><p>60 logs. Save $10, and free delivery within 5 miles.</p></div>
+<div class="card"><h3>One bundle</h3><div class="price">$8</div><p>5 logs. About one evening around the fire pit.</p></div>
+<div class="card best"><span class="badge">Best deal</span><h3>10 or more</h3><div class="price">$7</div><p>Each bundle. Free delivery within 5 miles.</p></div>
 <div class="card"><h3>Pickup</h3><div class="price">78717</div><p>Avery Ranch / Brushy Creek. Text us and we'll set it out for you.</p></div>
 </div>
 </section>
@@ -85,20 +113,79 @@ footer{padding:28px 0 40px;color:var(--muted);font-size:.95rem;display:flex;just
 <p class="lede">It's the hardwood Central Texas is known for. Dense, slow burning, great coals and few sparks. It's also what Texas BBQ is built on.</p>
 <ul class="uses">
 <li><strong>Fireplace</strong> · hot, long burns on cold nights</li>
-<li><strong>Fire pit</strong> · a bundle lasts 2 to 3 nights</li>
+<li><strong>Fire pit</strong> · a bundle is about one evening</li>
 <li><strong>Smoker</strong> · brisket, ribs and pork butts</li>
 <li><strong>Camping</strong> · fits next to the cooler</li>
 </ul>
 </div>
 </section>
 
+<section id="smores">
+<h2>S'mores night kit</h2>
+<p class="lede">Everything for a fire night with the family. Just add the fire pit.</p>
+<div class="card best kit">
+<span class="badge">New</span>
+<div class="kit-row">
+<div><h3>Serves about 4</h3><div class="price">$35</div></div>
+<ul class="uses">
+<li><strong>Wood</strong> · 2 bundles, 10 seasoned post oak logs</li>
+<li><strong>S'mores</strong> · a 12 oz bag of marshmallows, graham crackers and 4 Hershey's bars</li>
+<li><strong>Sticks</strong> · 4 bamboo roasting sticks, 36 inch</li>
+</ul>
+</div>
+<button type="button" class="cta" data-item="smores">Order a kit · $35</button>
+<div class="pay"><span>Pay with Cash App, Venmo, Zelle or cash. Or <a href="sms:+17373259530">text us</a>.</span></div>
+</div>
+</section>
+
+<section id="dads">
+<h2>Dad's fire kit</h2>
+<p class="lede">Ranch wood and everything to light it. Strike a spark like the old days.</p>
+<div class="card best kit">
+<span class="badge">New</span>
+<div class="kit-row">
+<div><h3>A full fire night</h3><div class="price">$35</div></div>
+<ul class="uses">
+<li><strong>Wood</strong> · 2 bundles, 10 seasoned post oak logs</li>
+<li><strong>Kindling</strong> · a bundle of cedar from our ranch</li>
+<li><strong>Ferro rod</strong> · fire steel with striker, good for thousands of sparks</li>
+<li><strong>Plan B</strong> · fire starter squares and a long-neck lighter. Even legends keep a backup.</li>
+</ul>
+</div>
+<button type="button" class="cta" data-item="dads">Order a kit · $35</button>
+<div class="pay"><span>Pay with Cash App, Venmo, Zelle or cash. Or <a href="sms:+17373259530">text us</a>.</span></div>
+</div>
+</section>
+
+<section id="hers">
+<h2>Her cozy night kit</h2>
+<p class="lede">A warm fire, a soft blanket and hot cocoa. The night off she's been asking for.</p>
+<div class="card best kit">
+<span class="badge">New</span>
+<div class="kit-row">
+<div><h3>Hers to keep</h3><div class="price">$35</div></div>
+<ul class="uses">
+<li><strong>Wood</strong> · 2 bundles, 10 seasoned post oak logs</li>
+<li><strong>Kindling</strong> · cedar from our ranch, smells great when it burns</li>
+<li><strong>Blanket</strong> · a plush 50" x 60" red plaid throw</li>
+<li><strong>Cocoa</strong> · 4 hot cocoa packets</li>
+<li><strong>To light it</strong> · fire starter squares and long fireplace matches</li>
+</ul>
+</div>
+<button type="button" class="cta" data-item="hers">Order a kit · $35</button>
+<div class="pay"><span>Pay with Cash App, Venmo, Zelle or cash. Or <a href="sms:+17373259530">text us</a>.</span></div>
+</div>
+</section>
+
 <section id="order">
 <div class="order">
 <h2>How many bundles?</h2>
-<p>Pick a number, then text us your order. Pay when you get your wood.</p>
-<div class="counter"><button type="button" id="minus" aria-label="One less">−</button><output id="n">1</output><button type="button" id="plus" aria-label="One more">+</button></div>
-<div class="total">Total: <b id="total">$30</b> <span id="extra"></span></div>
-<a class="cta" id="send" href="sms:+17373259530">Text my order</a>
+<p>Pick a number, tell us where to bring it, and pay with Cash App, Venmo, Zelle or cash on delivery.</p>
+<div class="counter"><button type="button" id="minus" aria-label="20 less">−</button><output id="n">20</output><button type="button" id="plus" aria-label="20 more">+</button></div>
+<div class="logs" id="logs">100 logs · about 20 evenings by the fire</div>
+<div class="total">Total: <b id="total">$140</b> <span id="extra"></span></div>
+<button type="button" class="cta" data-item="bundles">Order and pay</button>
+<div class="pay pay-center"><span>Rather text? <a id="send" href="sms:+17373259530">Text my order</a></span></div>
 </div>
 </section>
 
@@ -107,20 +194,114 @@ footer{padding:28px 0 40px;color:var(--muted);font-size:.95rem;display:flex;just
 <span>A text is faster than a call. I'm probably splitting wood. 🪓</span>
 </footer>
 </div>
+<dialog id="checkout" aria-labelledby="ck-title">
+<form class="ck" id="ck-form" novalidate>
+<h2 id="ck-title">Your order</h2>
+<p class="sum" id="ck-sum"></p>
+<div id="ck-kitqty" hidden><label for="ck-qty">How many kits?</label><select id="ck-qty"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></div>
+<label for="ck-name">Name</label><input type="text" id="ck-name" autocomplete="name" required>
+<label for="ck-phone">Phone <small>· we text to confirm</small></label><input type="tel" id="ck-phone" autocomplete="tel" required>
+<label for="ck-email">Email <small>· optional</small></label><input type="email" id="ck-email" autocomplete="email">
+<label>Pickup or delivery?</label>
+<div class="seg"><label><input type="radio" name="method" value="delivery" checked> Deliver to me</label><label><input type="radio" name="method" value="pickup"> I'll pick up in 78717</label></div>
+<div id="ck-addr-wrap"><label for="ck-addr">Delivery address</label><input type="text" id="ck-addr" autocomplete="street-address" placeholder="Street, city, ZIP">
+<p class="hint">Free delivery within 5 miles of 78717 on 10+ bundles. Farther out, we'll text you.</p></div>
+<label for="ck-when">Best day and time <small>· optional</small></label><input type="text" id="ck-when" placeholder="Saturday morning">
+<label for="ck-notes">Notes <small>· gate code, where to stack it</small></label><textarea id="ck-notes"></textarea>
+<label>How do you want to pay?</label>
+<div class="seg"><label><input type="radio" name="pay" value="Cash App" checked> Cash App</label><label><input type="radio" name="pay" value="Venmo"> Venmo</label><label><input type="radio" name="pay" value="Zelle"> Zelle</label><label><input type="radio" name="pay" value="Cash on delivery"> Cash when I get it</label></div>
+<input class="hp" type="text" id="ck-website" tabindex="-1" autocomplete="off" aria-hidden="true">
+<p class="err" id="ck-err" role="alert"></p>
+<p class="hint">We save your info on this device so next time is quicker.</p>
+<div class="row"><button type="button" class="linkbtn" id="ck-cancel">Cancel</button><button type="submit" class="cta" id="ck-submit">Place order</button></div>
+</form>
+<div class="ck" id="ck-done" hidden>
+<h2>Thank you!</h2>
+<p class="sum" id="done-sum"></p>
+<div id="done-pay"></div>
+<p class="hint">We'll text you to confirm the time. Questions? Text 737-325-9530.</p>
+<div class="row"><span></span><button type="button" class="cta" id="ck-close">Done</button></div>
+</div>
+</dialog>
 <script>
-let n = 1;
-const price = k => Math.floor(k / 3) * 80 + (k % 3) * 30;
+let n = 20;
+const price = k => k * (k >= 10 ? 7 : 8);
 function show() {
   const t = price(n);
   document.getElementById('n').textContent = n;
+  document.getElementById('logs').textContent = (n * 5) + ' logs · about ' + n + ' evenings by the fire';
   document.getElementById('total').textContent = '$' + t;
-  document.getElementById('extra').textContent = n >= 3 ? '· free delivery nearby' : '';
+  document.getElementById('extra').textContent = n >= 10 ? '· free delivery nearby' : '';
   document.getElementById('send').href = 'sms:+17373259530?&body=' + encodeURIComponent(
     'Hi! I’d like ' + n + ' firewood bundle' + (n > 1 ? 's' : '') + ' for $' + t + '.');
 }
-document.getElementById('minus').onclick = () => { n = Math.max(1, n - 1); show(); };
-document.getElementById('plus').onclick = () => { n = Math.min(50, n + 1); show(); };
+document.getElementById('minus').onclick = () => { n = Math.max(20, n - 20); show(); };
+document.getElementById('plus').onclick = () => { n = Math.min(200, n + 20); show(); };
 show();
+// Checkout: order, customer profile, delivery address, payment
+const KITS = { smores: "S'mores night kit", dads: "Dad's fire kit", hers: "Her cozy night kit" };
+const $ = id => document.getElementById(id);
+const dlg = $('checkout');
+let cur = null;
+const PROFILE = 'knotty-profile';
+function summary() {
+  if (cur.item === 'bundles') { cur.qty = n; cur.total = price(n); cur.label = n + ' firewood bundles'; }
+  else { cur.qty = +$('ck-qty').value; cur.total = 35 * cur.qty; cur.label = KITS[cur.item] + (cur.qty > 1 ? ' x' + cur.qty : ''); }
+  $('ck-sum').textContent = cur.label + ' · $' + cur.total;
+}
+function methodShown() {
+  const d = document.querySelector('input[name=method]:checked').value === 'delivery';
+  $('ck-addr-wrap').hidden = !d;
+}
+document.querySelectorAll('[data-item]').forEach(b => b.onclick = () => {
+  cur = { item: b.dataset.item };
+  $('ck-kitqty').hidden = cur.item === 'bundles';
+  $('ck-qty').value = '1';
+  const p = JSON.parse(localStorage.getItem(PROFILE) || '{}');
+  $('ck-name').value = p.name || ''; $('ck-phone').value = p.phone || ''; $('ck-email').value = p.email || ''; $('ck-addr').value = p.address || '';
+  if (p.method) document.querySelector('input[name=method][value="' + p.method + '"]').checked = true;
+  if (p.pay) { const r = document.querySelector('input[name=pay][value="' + p.pay + '"]'); if (r) r.checked = true; }
+  $('ck-err').textContent = ''; $('ck-form').hidden = false; $('ck-done').hidden = true;
+  summary(); methodShown(); dlg.showModal();
+});
+$('ck-qty').onchange = summary;
+document.querySelectorAll('input[name=method]').forEach(r => r.onchange = methodShown);
+$('ck-cancel').onclick = $('ck-close').onclick = () => dlg.close();
+dlg.addEventListener('click', e => { if (e.target === dlg) dlg.close(); });
+$('ck-form').onsubmit = async e => {
+  e.preventDefault();
+  const body = {
+    item: cur.item, qty: cur.qty,
+    name: $('ck-name').value.trim(), phone: $('ck-phone').value.trim(), email: $('ck-email').value.trim(),
+    method: document.querySelector('input[name=method]:checked').value,
+    address: $('ck-addr').value.trim(), when: $('ck-when').value.trim(), notes: $('ck-notes').value.trim(),
+    pay: document.querySelector('input[name=pay]:checked').value, website: $('ck-website').value,
+  };
+  const err = !body.name ? 'Please add your name.' : body.phone.replace(/\D/g, '').length < 10 ? 'Please add a phone number we can text.'
+    : body.method === 'delivery' && body.address.length < 6 ? 'Please add your delivery address.' : '';
+  if (err) { $('ck-err').textContent = err; return; }
+  $('ck-submit').disabled = true; $('ck-submit').textContent = 'Placing order…'; $('ck-err').textContent = '';
+  try {
+    const r = await fetch('/api/order', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body) });
+    const d = await r.json();
+    if (!r.ok) throw new Error(d.error || 'Something went wrong.');
+    localStorage.setItem(PROFILE, JSON.stringify({ name: body.name, phone: body.phone, email: body.email, address: body.address, method: body.method, pay: body.pay }));
+    const note = encodeURIComponent('Knotty order ' + d.id);
+    const pay = {
+      'Cash App': '<p>Last step, pay $' + d.total + ':</p><a class="pay-btn" href="https://cash.app/$mralejandrodavila/' + d.total + '" target="_blank" rel="noopener">Pay $' + d.total + ' with Cash App</a><p class="hint">Put ' + d.id + ' in the note.</p>',
+      'Venmo': '<p>Last step, pay $' + d.total + ':</p><a class="pay-btn" href="https://venmo.com/?txn=pay&recipients=Mr-Alejandro-Davila&amount=' + d.total + '&note=' + note + '" target="_blank" rel="noopener">Pay $' + d.total + ' with Venmo</a>',
+      'Zelle': '<p>Last step, Zelle $' + d.total + ' to <b>512-945-1209</b>. It shows as Yeanette Davila. Put ' + d.id + ' in the memo.</p>',
+      'Cash on delivery': '<p>Pay $' + d.total + ' in cash when you get your wood.</p>',
+    }[body.pay];
+    $('done-sum').textContent = 'Order ' + d.id + ' · ' + d.label + ' · $' + d.total + (body.method === 'delivery' ? ' · delivering to ' + body.address : ' · pickup in 78717');
+    $('done-pay').innerHTML = pay;
+    $('ck-form').hidden = true; $('ck-done').hidden = false;
+  } catch (x) {
+    $('ck-err').textContent = x.message === 'Failed to fetch' ? 'No connection. Try again, or text 737-325-9530.' : x.message;
+  } finally {
+    $('ck-submit').disabled = false; $('ck-submit').textContent = 'Place order';
+  }
+};
 </script>
 </body>
 </html>

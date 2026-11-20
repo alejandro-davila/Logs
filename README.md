@@ -1,15 +1,16 @@
 # Knotty by Nature Firewood Co.
 
-Firewood site: seasoned Texas post oak from the ranch in Rosebud, TX, sold in 20 log bundles.
+Firewood site: seasoned Texas post oak from the ranch in Rosebud, TX, sold in 5 log bundles.
 
-- $30 per bundle, 3 for $80
-- Pickup in 78717, free delivery within 5 miles on 3+ bundles
-- The order box builds a text or email with the order
+- $8 per 5 log bundle, $7 each for 10+
+- Pickup in 78717, free delivery within 5 miles on 10+ bundles
+- Online orders: checkout dialog posts to `/api/order` (src/worker.js), saved in Cloudflare KV. Private list at `/orders?key=...` (key in `.dev.vars`).
 
 ## Files
 - `dist/index.html`: the whole site (prices are the constants at the top of the script)
 - `dist/woods.jpeg`, `dist/bark.jpeg`: ranch photos (location data removed)
-- `wrangler.jsonc`: Cloudflare Worker that serves `dist/`
+- `src/worker.js`: order API and orders page
+- `wrangler.jsonc`: Cloudflare Worker that serves `dist/` and runs the worker
 
 ## Deploy
 ```bash
