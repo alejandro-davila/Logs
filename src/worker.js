@@ -57,7 +57,7 @@ async function saveOrder(req, env, ctx, url) {
     name, phone, email: clean(b.email, 120),
     method, address: method === 'delivery' ? address : '',
     notes: clean(b.notes, 400), when: clean(b.when, 80),
-    pay, paid: false, delivered: false,
+    pay, paid: false, delivered: false, texted: false,
   };
   await env.ORDERS.put('order:' + now.toISOString() + ':' + id, JSON.stringify(order));
   // Customer profile, keyed by phone, so repeat customers are easy to spot.
@@ -70,24 +70,44 @@ async function saveOrder(req, env, ctx, url) {
 
 // Push alert to Alejandro's phone (ntfy app, subscribed to the secret topic).
 // Shows the customer's name, phone, address, time and notes; tap opens the orders page.
+// Confirmation text Alejandro sends the customer from his own phone (one tap).
+const PAY_HOW = {
+  'Cash App': 'Cash App to $mralejandrodavila',
+  'Venmo': 'Venmo to @Mr-Alejandro-Davila',
+  'Zelle': 'Zelle to 512-945-1209 (it shows Yeanette Davila)',
+  'Cash on delivery': 'cash when you get your wood',
+};
+function smsTo(phone) { return '+1' + String(phone).replace(/\D/g, '').slice(-10); }
+function confirmText(o) {
+  const first = String(o.name).split(' ')[0];
+  const where = o.method === 'delivery' ? `Delivering to ${o.address}` : 'Pickup in 78717 (Avery Ranch / Brushy Creek)';
+  return `Hi ${first}, this is Alejandro with Knotty by Nature Firewood. Got your order ${o.id}: ${o.label}, $${o.total}. ` +
+    `${where}${o.when ? ', ' + o.when : ''}. Payment: ${PAY_HOW[o.pay] || o.pay}${o.paid ? ' (received, thank you!)' : ''}. ` +
+    `I'll text you before I head over. Thanks for your order!`;
+}
+const smsLink = o => `sms:${smsTo(o.phone)}?&body=${encodeURIComponent(confirmText(o))}`;
+
 async function notify(env, o, origin) {
   if (!env.NTFY_TOPIC) return;
   try {
-    const r = await fetch('https://ntfy.sh/' + env.NTFY_TOPIC, {
+    const r = await fetch('https://ntfy.sh/', {
       method: 'POST',
-      body: [
-        `${o.label} · $${o.total} · pays by ${o.pay}`,
-        `${o.name} · ${o.phone}`,
-        o.method === 'delivery' ? `Deliver to: ${o.address}` : 'Pickup in 78717',
-        o.when && `When: ${o.when}`,
-        o.notes && `Notes: ${o.notes}`,
-      ].filter(Boolean).join('\n'),
-      headers: {
-        Title: `New order ${o.id}`,
-        Tags: 'wood',
-        Priority: 'high',
-        Click: env.ADMIN_KEY ? `${origin}/orders?key=${env.ADMIN_KEY}` : origin,
-      },
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({
+        topic: env.NTFY_TOPIC,
+        title: `New order ${o.id}`,
+        message: [
+          `${o.label} · $${o.total} · pays by ${o.pay}`,
+          `${o.name} · ${o.phone}`,
+          o.method === 'delivery' ? `Deliver to: ${o.address}` : 'Pickup in 78717',
+          o.when && `When: ${o.when}`,
+          o.notes && `Notes: ${o.notes}`,
+        ].filter(Boolean).join('\n'),
+        tags: ['wood'],
+        priority: 4,
+        click: env.ADMIN_KEY ? `${origin}/orders?key=${env.ADMIN_KEY}` : origin,
+        actions: [{ action: 'view', label: 'Text confirmation', url: smsLink(o), clear: true }],
+      }),
     });
     if (!r.ok) console.log('ntfy failed', r.status, await r.text());
   } catch (e) { console.log('ntfy error', String(e)); }
@@ -112,7 +132,7 @@ const authed = (url, env) => env.ADMIN_KEY && url.searchParams.get('key') === en
 async function setStatus(req, env, url) {
   if (!authed(url, env)) return json({ error: 'Not allowed' }, 403);
   const { key, field, value } = await req.json();
-  if (!String(key).startsWith('order:') || !['paid', 'delivered'].includes(field)) return json({ error: 'Bad request' }, 400);
+  if (!String(key).startsWith('order:') || !['paid', 'delivered', 'texted'].includes(field)) return json({ error: 'Bad request' }, 400);
   const o = await env.ORDERS.get(key, 'json');
   if (!o) return json({ error: 'Not found' }, 404);
   o[field] = !!value;
@@ -132,6 +152,8 @@ function ordersPage(orders, key) {
 <div>${map}</div>
 ${o.when ? `<div>When: ${esc(o.when)}</div>` : ''}${o.notes ? `<div>Notes: ${esc(o.notes)}</div>` : ''}
 <div class="meta">${fmt(o.created)} · pays by ${esc(o.pay)}</div>
+<a class="txt" href="${esc(smsLink(o))}" data-k="${esc(o.key)}">Text confirmation</a>
+<label><input type="checkbox" data-k="${esc(o.key)}" data-f="texted"${o.texted ? ' checked' : ''}> Texted</label>
 <label><input type="checkbox" data-k="${esc(o.key)}" data-f="paid"${o.paid ? ' checked' : ''}> Paid</label>
 <label><input type="checkbox" data-k="${esc(o.key)}" data-f="delivered"${o.delivered ? ' checked' : ''}> Delivered</label>
 </div>`;
@@ -143,9 +165,10 @@ main{max-width:720px;margin:auto;padding:20px}h1{font-family:Georgia,serif;font-
 .o{background:#fffaf2;border:1px solid #e2d4c0;border-left:5px solid #c8501e;border-radius:12px;padding:14px 16px;margin:0 0 12px}
 .o.done{opacity:.55;border-left-color:#9b8b7a}.top{display:flex;justify-content:space-between;gap:8px}
 .amt{color:#c8501e;font-weight:700}.meta{color:#6e5a4a;font-size:.9rem;margin:4px 0 6px}label{margin-right:16px}
-a{color:#c8501e}</style></head><body><main>
+a{color:#c8501e}.txt{display:inline-block;background:#c8501e;color:#fff;text-decoration:none;font-weight:700;padding:7px 14px;border-radius:999px;margin:0 14px 8px 0}</style></head><body><main>
 <h1>Orders</h1><p>${open.length} open · ${orders.length} total</p>${rows || '<p>No orders yet.</p>'}
 </main><script>
+document.querySelectorAll('a.txt').forEach(a=>a.addEventListener('click',()=>{const c=document.querySelector('input[data-f="texted"][data-k="'+CSS.escape(a.dataset.k)+'"]');if(c&&!c.checked){c.checked=true;c.dispatchEvent(new Event('change'))}}));
 document.querySelectorAll('input[data-k]').forEach(c=>c.onchange=async()=>{
  const r=await fetch('/api/status?key=${encodeURIComponent(key)}',{method:'POST',headers:{'content-type':'application/json'},
  body:JSON.stringify({key:c.dataset.k,field:c.dataset.f,value:c.checked})});
