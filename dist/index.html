@@ -58,6 +58,15 @@ h2{font-size:clamp(2rem,4vw,3rem);margin:0 0 8px}
 .total{font-size:1.2rem;margin-bottom:22px}
 .total b{color:#ffb07a}
 footer{padding:28px 0 40px;color:var(--muted);font-size:.95rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.kits{align-items:stretch}
+.kits .kit{display:flex;flex-direction:column}
+.kits .kit h3{font-family:Georgia,serif;font-weight:500;font-size:1.6rem;margin:0 0 6px}
+.kits .kit .badge{align-self:flex-start}
+.kits .kit .kit-tag{margin:0 0 14px;min-height:4.65em}
+@media(max-width:820px){.kits .kit .kit-tag{min-height:0}}
+.kits .kit .kit-sub{margin:4px 0 12px;font-weight:600;color:var(--ink)}
+.kits .kit .uses{margin-bottom:20px;font-size:.95rem}
+.kits .kit .cta{margin-top:auto;text-align:center}
 .kit .kit-row{display:grid;grid-template-columns:auto 1fr;gap:clamp(20px,5vw,56px);align-items:start;margin-bottom:22px}
 dialog{border:0;border-radius:20px;padding:0;width:min(520px,calc(100% - 24px));max-height:calc(100% - 24px);background:var(--card);color:var(--ink)}
 dialog::backdrop{background:rgba(20,12,6,.6)}
@@ -135,50 +144,43 @@ dialog::backdrop{background:rgba(20,12,6,.6)}
 </div>
 </section>
 
-<section id="smores">
-<h2>S'mores night kit</h2>
-<p class="lede">Everything for a fire night with the family. Just add the fire pit.</p>
-<div class="card best kit">
+<section id="kits">
+<h2>Fire kits</h2>
+<p class="lede">Everything for a night by the fire, ready to grab and go.</p>
+<div class="cards kits">
+<div class="card best kit" id="smores">
 <span class="badge">New</span>
-<div class="kit-row">
-<div><h3>Serves about 4</h3><div class="price">$35</div></div>
+<h3>S'mores night kit</h3>
+<p class="kit-tag">Everything for a fire night with the family. Just add the fire pit.</p>
+<div class="price">$35</div>
+<p class="kit-sub">Serves about 4</p>
 <ul class="uses">
 <li><strong>Wood</strong> · 2 bundles, 10 split post oak logs</li>
 <li><strong>S'mores</strong> · a 12 oz bag of marshmallows, graham crackers and 4 Hershey's bars</li>
 <li><strong>Sticks</strong> · 4 bamboo roasting sticks, 36 inch</li>
 </ul>
-</div>
 <button type="button" class="cta" data-item="smores">Order a kit · $35</button>
-<div class="pay"><span>Pay with Cash App, Venmo, Zelle or cash. Or <a href="sms:+17373259530">text us</a>.</span></div>
 </div>
-</section>
-
-<section id="dads">
-<h2>Dad's fire kit</h2>
-<p class="lede">Ranch wood and everything to light it. Strike a spark like the old days.</p>
-<div class="card best kit">
+<div class="card best kit" id="dads">
 <span class="badge">New</span>
-<div class="kit-row">
-<div><h3>A full fire night</h3><div class="price">$35</div></div>
+<h3>Dad's fire kit</h3>
+<p class="kit-tag">Ranch wood and everything to light it. Strike a spark like the old days.</p>
+<div class="price">$35</div>
+<p class="kit-sub">A full fire night</p>
 <ul class="uses">
 <li><strong>Wood</strong> · 2 bundles, 10 split post oak logs</li>
 <li><strong>Kindling</strong> · a bundle of cedar from our ranch</li>
 <li><strong>Ferro rod</strong> · fire steel with striker, good for thousands of sparks</li>
 <li><strong>Plan B</strong> · fire starter squares and a long-neck lighter. Even legends keep a backup.</li>
 </ul>
-</div>
 <button type="button" class="cta" data-item="dads">Order a kit · $35</button>
-<div class="pay"><span>Pay with Cash App, Venmo, Zelle or cash. Or <a href="sms:+17373259530">text us</a>.</span></div>
 </div>
-</section>
-
-<section id="hers">
-<h2>Her cozy night kit</h2>
-<p class="lede">A warm fire, a soft blanket and hot cocoa. The night off she's been asking for.</p>
-<div class="card best kit">
+<div class="card best kit" id="hers">
 <span class="badge">New</span>
-<div class="kit-row">
-<div><h3>Hers to keep</h3><div class="price">$35</div></div>
+<h3>Her cozy night kit</h3>
+<p class="kit-tag">A warm fire, a soft blanket and hot cocoa. The night off she's been asking for.</p>
+<div class="price">$35</div>
+<p class="kit-sub">Hers to keep</p>
 <ul class="uses">
 <li><strong>Wood</strong> · 2 bundles, 10 split post oak logs</li>
 <li><strong>Kindling</strong> · cedar from our ranch, smells great when it burns</li>
@@ -186,10 +188,10 @@ dialog::backdrop{background:rgba(20,12,6,.6)}
 <li><strong>Cocoa</strong> · 4 hot cocoa packets</li>
 <li><strong>To light it</strong> · fire starter squares and long fireplace matches</li>
 </ul>
-</div>
 <button type="button" class="cta" data-item="hers">Order a kit · $35</button>
-<div class="pay"><span>Pay with Cash App, Venmo, Zelle or cash. Or <a href="sms:+17373259530">text us</a>.</span></div>
 </div>
+</div>
+<div class="pay pay-center"><span>Pay with Cash App, Venmo, Zelle or cash. Or <a href="sms:+17373259530">text us</a>.</span></div>
 </section>
 
 <footer>
