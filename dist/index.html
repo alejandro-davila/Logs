@@ -297,7 +297,10 @@ $('ck-form').onsubmit = async e => {
     $('done-pay').innerHTML = pay;
     $('ck-form').hidden = true; $('ck-done').hidden = false;
   } catch (x) {
-    $('ck-err').textContent = x.message === 'Failed to fetch' ? 'No connection. Try again, or text 737-325-9530.' : x.message;
+    if (x instanceof TypeError) {
+      const txt = 'Hi! I’d like ' + cur.label + ' for $' + cur.total + '. ' + body.name + ', ' + (body.method === 'delivery' ? 'deliver to ' + body.address : 'pickup') + '. Paying by ' + body.pay + '.';
+      $('ck-err').innerHTML = 'We couldn’t send your order. Check your connection and try again, or <a href="sms:+17373259530?&body=' + encodeURIComponent(txt) + '">text it to us</a>.';
+    } else $('ck-err').textContent = x.message;
   } finally {
     $('ck-submit').disabled = false; $('ck-submit').textContent = 'Place order';
   }
