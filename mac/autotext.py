@@ -25,6 +25,14 @@ SEND = '''on run argv
   end tell
 end run'''
 
+SENT = os.path.join(HERE, "sent_ids.txt")  # local record, so a slow-to-update site never causes a double text
+
+def sent_ids():
+    try:
+        return set(open(SENT).read().split())
+    except FileNotFoundError:
+        return set()
+
 def call(path, data=None):
     req = urllib.request.Request(SITE + path, data=json.dumps(data).encode() if data else None,
                                  headers={"content-type": "application/json", "user-agent": "knotty-autotext"})
@@ -45,10 +53,17 @@ def main():
             print(f"{a['id']} alert re-sent from Mac")
         except Exception as e:
             print(f"{a['id']} alert re-send failed: {e}")
+    done = sent_ids()
     for o in pending.get("texts", []):
+        if o["id"] in done:
+            try: call(f"/api/status?key={KEY}", {"key": o["key"], "field": "texted", "value": True})
+            except Exception: pass
+            continue
         r = subprocess.run(["osascript", "-e", SEND, o["to"], o["text"]], capture_output=True, text=True)
         if r.returncode != 0:
             print(f"{o['id']} send failed: {r.stderr.strip()}"); continue
+        with open(SENT, "a") as f: f.write(o["id"] + "\n")
+        done.add(o["id"])
         call(f"/api/status?key={KEY}", {"key": o["key"], "field": "texted", "value": True})
         print(f"{o['id']} texted {o['to'][-4:]}")
 
