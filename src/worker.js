@@ -1,7 +1,8 @@
 // Knotty by Nature: online orders.
 // POST /api/order        save an order (customer profile + delivery address + pay method)
 // GET  /orders?key=...   Alejandro's private list of orders
-// POST /api/status       mark an order paid / delivered (needs the key)
+// POST /api/status       mark an order paid / delivered / texted (needs the key)
+// GET  /api/pending?key= orders not texted yet (the Mac auto-texter sends them)
 // Everything else is the static site in dist/.
 
 const KITS = {
@@ -59,12 +60,13 @@ async function saveOrder(req, env, ctx, url) {
     notes: clean(b.notes, 400), when: clean(b.when, 80),
     pay, paid: false, delivered: false, texted: false,
   };
-  await env.ORDERS.put('order:' + now.toISOString() + ':' + id, JSON.stringify(order));
+  const okey = 'order:' + now.toISOString() + ':' + id;
+  await env.ORDERS.put(okey, JSON.stringify(order));
   // Customer profile, keyed by phone, so repeat customers are easy to spot.
   await env.ORDERS.put('customer:' + digits.slice(-10), JSON.stringify({
     name, phone, email: order.email, address: order.address || undefined, updated: order.created,
   }));
-  ctx.waitUntil(notify(env, order, url.origin));
+  ctx.waitUntil(notify(env, order, url.origin, okey));
   return json({ ok: true, id, total: q.total, label: q.label });
 }
 
@@ -87,30 +89,43 @@ function confirmText(o) {
 }
 const smsLink = o => `sms:${smsTo(o.phone)}?&body=${encodeURIComponent(confirmText(o))}`;
 
-async function notify(env, o, origin) {
+function alertPayload(env, o, origin) {
+  return {
+    topic: env.NTFY_TOPIC,
+    title: `New order ${o.id}`,
+    message: [
+      `${o.label} · $${o.total} · pays by ${o.pay}`,
+      `${o.name} · ${o.phone}`,
+      o.method === 'delivery' ? `Deliver to: ${o.address}` : 'Pickup in 78717',
+      o.when && `When: ${o.when}`,
+      o.notes && `Notes: ${o.notes}`,
+    ].filter(Boolean).join('\n'),
+    tags: ['wood'],
+    priority: 4,
+    click: env.ADMIN_KEY ? `${origin}/orders?key=${env.ADMIN_KEY}` : origin,
+    actions: [{ action: 'view', label: 'Text confirmation', url: smsLink(o), clear: true }],
+  };
+}
+
+// Push alert to Alejandro's phone (ntfy). Retries, then records whether it went out;
+// the Mac auto-texter re-sends any alert that didn't.
+async function notify(env, o, origin, key) {
   if (!env.NTFY_TOPIC) return;
-  try {
-    const r = await fetch('https://ntfy.sh/', {
-      method: 'POST',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({
-        topic: env.NTFY_TOPIC,
-        title: `New order ${o.id}`,
-        message: [
-          `${o.label} · $${o.total} · pays by ${o.pay}`,
-          `${o.name} · ${o.phone}`,
-          o.method === 'delivery' ? `Deliver to: ${o.address}` : 'Pickup in 78717',
-          o.when && `When: ${o.when}`,
-          o.notes && `Notes: ${o.notes}`,
-        ].filter(Boolean).join('\n'),
-        tags: ['wood'],
-        priority: 4,
-        click: env.ADMIN_KEY ? `${origin}/orders?key=${env.ADMIN_KEY}` : origin,
-        actions: [{ action: 'view', label: 'Text confirmation', url: smsLink(o), clear: true }],
-      }),
-    });
-    if (!r.ok) console.log('ntfy failed', r.status, await r.text());
-  } catch (e) { console.log('ntfy error', String(e)); }
+  let err = '';
+  for (const wait of [0, 2000, 6000]) {
+    if (wait) await new Promise(r => setTimeout(r, wait));
+    try {
+      const r = await fetch('https://ntfy.sh/', {
+        method: 'POST', headers: { 'content-type': 'application/json' },
+        body: JSON.stringify(alertPayload(env, o, origin)),
+      });
+      if (r.ok) { err = ''; break; }
+      err = `${r.status} ${(await r.text()).slice(0, 200)}`;
+    } catch (e) { err = String(e); }
+    console.log('ntfy attempt failed', o.id, err);
+  }
+  const cur = await env.ORDERS.get(key, 'json');
+  if (cur) { cur.alerted = !err; if (err) cur.alertError = err; await env.ORDERS.put(key, JSON.stringify(cur)); }
 }
 
 async function allOrders(env) {
@@ -132,7 +147,7 @@ const authed = (url, env) => env.ADMIN_KEY && url.searchParams.get('key') === en
 async function setStatus(req, env, url) {
   if (!authed(url, env)) return json({ error: 'Not allowed' }, 403);
   const { key, field, value } = await req.json();
-  if (!String(key).startsWith('order:') || !['paid', 'delivered', 'texted'].includes(field)) return json({ error: 'Bad request' }, 400);
+  if (!String(key).startsWith('order:') || !['paid', 'delivered', 'texted', 'alerted'].includes(field)) return json({ error: 'Bad request' }, 400);
   const o = await env.ORDERS.get(key, 'json');
   if (!o) return json({ error: 'Not found' }, 404);
   o[field] = !!value;
@@ -181,6 +196,19 @@ export default {
     const url = new URL(req.url);
     if (url.pathname === '/api/order' && req.method === 'POST') return saveOrder(req, env, ctx, url);
     if (url.pathname === '/api/status' && req.method === 'POST') return setStatus(req, env, url);
+    if (url.pathname === '/api/pending') {
+      // For the Mac auto-texter: orders from the last 24 hours not texted yet, with the confirmation text
+      if (!authed(url, env)) return new Response('Not found', { status: 404 });
+      const since = Date.now() - 24 * 3600 * 1000;
+      const recent = (await allOrders(env)).filter(o => Date.parse(o.created) > since);
+      const list = recent.filter(o => !o.texted && !o.delivered)
+        .map(o => ({ key: o.key, id: o.id, to: smsTo(o.phone), text: confirmText(o) }));
+      // alerted === false means the site tried and failed (older orders have no flag)
+      const alerts = recent.filter(o => o.alerted === false)
+        .map(o => ({ key: o.key, id: o.id, payload: alertPayload(env, o, url.origin) }));
+      if (url.searchParams.get('v') === '2') return json({ texts: list, alerts });
+      return json(list);
+    }
     if (url.pathname === '/orders') {
       if (!authed(url, env)) return new Response('Not found', { status: 404 });
       return new Response(ordersPage(await allOrders(env), url.searchParams.get('key')), {
