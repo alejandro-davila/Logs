@@ -106,6 +106,18 @@ dialog::backdrop{background:rgba(20,12,6,.6)}
 </div>
 </section>
 
+<section id="order">
+<div class="order">
+<h2>How many bundles?</h2>
+<p>Pick a number, tell us where to bring it, and pay with Cash App, Venmo, Zelle or cash on delivery.</p>
+<div class="counter"><button type="button" id="minus" aria-label="Fewer bundles">−</button><output id="n">20</output><button type="button" id="plus" aria-label="More bundles">+</button></div>
+<div class="logs" id="logs">100 logs · about 20 evenings by the fire</div>
+<div class="total">Total: <b id="total">$140</b> <span id="extra"></span></div>
+<button type="button" class="cta" data-item="bundles">Order and pay</button>
+<div class="pay pay-center"><span>Rather text? <a id="send" href="sms:+17373259530">Text my order</a></span></div>
+</div>
+</section>
+
 <section class="split">
 <img src="bark.jpeg" alt="Post oak bark and leaves on the ranch, with a mourning dove on a branch">
 <div>
@@ -177,18 +189,6 @@ dialog::backdrop{background:rgba(20,12,6,.6)}
 </div>
 </section>
 
-<section id="order">
-<div class="order">
-<h2>How many bundles?</h2>
-<p>Pick a number, tell us where to bring it, and pay with Cash App, Venmo, Zelle or cash on delivery.</p>
-<div class="counter"><button type="button" id="minus" aria-label="20 less">−</button><output id="n">20</output><button type="button" id="plus" aria-label="20 more">+</button></div>
-<div class="logs" id="logs">100 logs · about 20 evenings by the fire</div>
-<div class="total">Total: <b id="total">$140</b> <span id="extra"></span></div>
-<button type="button" class="cta" data-item="bundles">Order and pay</button>
-<div class="pay pay-center"><span>Rather text? <a id="send" href="sms:+17373259530">Text my order</a></span></div>
-</div>
-</section>
-
 <footer>
 <span>© Knotty by Nature Firewood Co.</span>
 <span>A text is faster than a call. I'm probably splitting wood. 🪓</span>
@@ -229,14 +229,15 @@ const price = k => k * (k >= 10 ? 7 : 8);
 function show() {
   const t = price(n);
   document.getElementById('n').textContent = n;
-  document.getElementById('logs').textContent = (n * 5) + ' logs · about ' + n + ' evenings by the fire';
+  document.getElementById('logs').textContent = (n * 5) + ' logs · about ' + n + (n === 1 ? ' evening' : ' evenings') + ' by the fire';
   document.getElementById('total').textContent = '$' + t;
   document.getElementById('extra').textContent = n >= 10 ? '· free delivery nearby' : '';
   document.getElementById('send').href = 'sms:+17373259530?&body=' + encodeURIComponent(
     'Hi! I’d like ' + n + ' firewood bundle' + (n > 1 ? 's' : '') + ' for $' + t + '.');
 }
-document.getElementById('minus').onclick = () => { n = Math.max(20, n - 20); show(); };
-document.getElementById('plus').onclick = () => { n = Math.min(200, n + 20); show(); };
+// 1 to 10 one at a time, then 20, 40 ... 200
+document.getElementById('minus').onclick = () => { n = n > 20 ? n - 20 : n > 10 ? 10 : Math.max(1, n - 1); show(); };
+document.getElementById('plus').onclick = () => { n = n < 10 ? n + 1 : n < 20 ? 20 : Math.min(200, n + 20); show(); };
 show();
 // Checkout: order, customer profile, delivery address, payment
 const KITS = { smores: "S'mores night kit", dads: "Dad's fire kit", hers: "Her cozy night kit" };
@@ -245,7 +246,7 @@ const dlg = $('checkout');
 let cur = null;
 const PROFILE = 'knotty-profile';
 function summary() {
-  if (cur.item === 'bundles') { cur.qty = n; cur.total = price(n); cur.label = n + ' firewood bundles'; }
+  if (cur.item === 'bundles') { cur.qty = n; cur.total = price(n); cur.label = n + ' firewood bundle' + (n > 1 ? 's' : ''); }
   else { cur.qty = +$('ck-qty').value; cur.total = 35 * cur.qty; cur.label = KITS[cur.item] + (cur.qty > 1 ? ' x' + cur.qty : ''); }
   $('ck-sum').textContent = cur.label + ' · $' + cur.total;
 }

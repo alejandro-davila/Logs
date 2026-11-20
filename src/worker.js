@@ -16,8 +16,8 @@ const bundlePrice = n => n * (n >= 10 ? 7 : 8);
 function quote(item, qty) {
   qty = Math.floor(Number(qty));
   if (item === 'bundles') {
-    if (!(qty >= 20 && qty <= 200 && qty % 20 === 0)) return null;
-    return { label: qty + ' firewood bundles', qty, total: bundlePrice(qty) };
+    if (!(qty >= 1 && qty <= 200)) return null;
+    return { label: qty + ' firewood bundle' + (qty > 1 ? 's' : ''), qty, total: bundlePrice(qty) };
   }
   const kit = KITS[item];
   if (!kit || !(qty >= 1 && qty <= 10)) return null;
