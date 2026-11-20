@@ -51,7 +51,9 @@ h2{font-size:clamp(2rem,4vw,3rem);margin:0 0 8px}
 .order p{color:#d9c9b6;max-width:48ch;margin:0 auto 22px}
 .counter{display:flex;justify-content:center;align-items:center;gap:14px;margin:0 0 10px}
 .counter button{width:52px;height:52px;border-radius:50%;border:2px solid var(--ember);background:transparent;color:#fff;font-size:1.5rem;cursor:pointer}
-.counter output{font-family:Georgia,serif;font-size:2.4rem;min-width:2ch}
+.counter input{font-family:Georgia,serif;font-size:2.4rem;width:3.2ch;text-align:center;background:transparent;color:#fff;border:0;border-bottom:2px dashed rgba(255,176,122,.6);padding:0;-moz-appearance:textfield}
+.counter input::-webkit-inner-spin-button,.counter input::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
+.counter input:focus{outline:none;border-bottom-color:#ffb07a}
 .logs{color:#d9c9b6;margin:0 0 6px}
 .total{font-size:1.2rem;margin-bottom:22px}
 .total b{color:#ffb07a}
@@ -110,7 +112,7 @@ dialog::backdrop{background:rgba(20,12,6,.6)}
 <div class="order">
 <h2>How many bundles?</h2>
 <p>Pick a number, tell us where to bring it, and pay with Cash App, Venmo, Zelle or cash on delivery.</p>
-<div class="counter"><button type="button" id="minus" aria-label="Fewer bundles">−</button><output id="n">20</output><button type="button" id="plus" aria-label="More bundles">+</button></div>
+<div class="counter"><button type="button" id="minus" aria-label="Fewer bundles">−</button><input id="n" type="number" inputmode="numeric" min="1" max="200" value="20" aria-label="Number of bundles"><button type="button" id="plus" aria-label="More bundles">+</button></div>
 <div class="logs" id="logs">100 logs · about 20 evenings by the fire</div>
 <div class="total">Total: <b id="total">$140</b> <span id="extra"></span></div>
 <button type="button" class="cta" data-item="bundles">Order and pay</button>
@@ -228,16 +230,20 @@ let n = 20;
 const price = k => k * (k >= 10 ? 7 : 8);
 function show() {
   const t = price(n);
-  document.getElementById('n').textContent = n;
+  if (document.activeElement !== document.getElementById('n')) document.getElementById('n').value = n;
   document.getElementById('logs').textContent = (n * 5) + ' logs · about ' + n + (n === 1 ? ' evening' : ' evenings') + ' by the fire';
   document.getElementById('total').textContent = '$' + t;
   document.getElementById('extra').textContent = n >= 10 ? '· free delivery nearby' : '';
   document.getElementById('send').href = 'sms:+17373259530?&body=' + encodeURIComponent(
     'Hi! I’d like ' + n + ' firewood bundle' + (n > 1 ? 's' : '') + ' for $' + t + '.');
 }
-// 1 to 10 one at a time, then 20, 40 ... 200
-document.getElementById('minus').onclick = () => { n = n > 20 ? n - 20 : n > 10 ? 10 : Math.max(1, n - 1); show(); };
-document.getElementById('plus').onclick = () => { n = n < 10 ? n + 1 : n < 20 ? 20 : Math.min(200, n + 20); show(); };
+// Buttons step by 5 (1, 5, 10, 15 ... 200); or type any number 1 to 200
+document.getElementById('minus').onclick = () => { n = n <= 5 ? 1 : n % 5 ? n - n % 5 : n - 5; show(); };
+document.getElementById('plus').onclick = () => { n = Math.min(200, n < 5 ? 5 : n - n % 5 + 5); show(); };
+const box = document.getElementById('n');
+box.oninput = () => { const v = parseInt(box.value, 10); if (v >= 1) { n = Math.min(200, v); show(); } };
+box.onblur = () => { box.value = n; };
+box.onkeydown = e => { if (e.key === 'Enter') box.blur(); };
 show();
 // Checkout: order, customer profile, delivery address, payment
 const KITS = { smores: "S'mores night kit", dads: "Dad's fire kit", hers: "Her cozy night kit" };
