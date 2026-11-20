@@ -1,6 +1,6 @@
 # Knotty by Nature Firewood Co.
 
-Firewood site: ranch cut Texas post oak from the ranch in Rosebud, TX, sold in 5 log bundles.
+Firewood site: ranch cut Texas post oak and cedar from the ranch in Rosebud, TX, sold in 5 log bundles.
 
 - $8 per 5 log bundle, $7 each for 10+
 - Pickup in 78717, free delivery within 5 miles on 10+ bundles
