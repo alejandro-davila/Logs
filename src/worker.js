@@ -73,7 +73,7 @@ async function saveOrder(req, env, ctx, url) {
 async function notify(env, o, origin) {
   if (!env.NTFY_TOPIC) return;
   try {
-    await fetch('https://ntfy.sh/' + env.NTFY_TOPIC, {
+    const r = await fetch('https://ntfy.sh/' + env.NTFY_TOPIC, {
       method: 'POST',
       body: [
         `${o.label} · $${o.total} · pays by ${o.pay}`,
@@ -89,7 +89,8 @@ async function notify(env, o, origin) {
         Click: env.ADMIN_KEY ? `${origin}/orders?key=${env.ADMIN_KEY}` : origin,
       },
     });
-  } catch {}
+    if (!r.ok) console.log('ntfy failed', r.status, await r.text());
+  } catch (e) { console.log('ntfy error', String(e)); }
 }
 
 async function allOrders(env) {
