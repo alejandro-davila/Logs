@@ -29,7 +29,7 @@ const json = (data, status = 200) =>
   new Response(JSON.stringify(data), { status, headers: { 'content-type': 'application/json' } });
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
-async function saveOrder(req, env) {
+async function saveOrder(req, env, ctx, url) {
   let b;
   try { b = await req.json(); } catch { return json({ error: 'Bad request' }, 400); }
   if (b.website) return json({ ok: true, id: 'K0' }); // spam trap
@@ -64,7 +64,27 @@ async function saveOrder(req, env) {
   await env.ORDERS.put('customer:' + digits.slice(-10), JSON.stringify({
     name, phone, email: order.email, address: order.address || undefined, updated: order.created,
   }));
+  ctx.waitUntil(notify(env, order, url.origin));
   return json({ ok: true, id, total: q.total, label: q.label });
+}
+
+// Push alert to Alejandro's phone (ntfy app, subscribed to the secret topic).
+// Keeps the customer's name and address out of the alert; tap opens the orders page.
+async function notify(env, o, origin) {
+  if (!env.NTFY_TOPIC) return;
+  const where = o.method === 'delivery' ? 'Delivery' : 'Pickup';
+  try {
+    await fetch('https://ntfy.sh/' + env.NTFY_TOPIC, {
+      method: 'POST',
+      body: `${o.label} · $${o.total}\n${where} · pays by ${o.pay}`,
+      headers: {
+        Title: `New order ${o.id}`,
+        Tags: 'wood',
+        Priority: 'high',
+        Click: env.ADMIN_KEY ? `${origin}/orders?key=${env.ADMIN_KEY}` : origin,
+      },
+    });
+  } catch {}
 }
 
 async function allOrders(env) {
@@ -128,9 +148,9 @@ document.querySelectorAll('input[data-k]').forEach(c=>c.onchange=async()=>{
 }
 
 export default {
-  async fetch(req, env) {
+  async fetch(req, env, ctx) {
     const url = new URL(req.url);
-    if (url.pathname === '/api/order' && req.method === 'POST') return saveOrder(req, env);
+    if (url.pathname === '/api/order' && req.method === 'POST') return saveOrder(req, env, ctx, url);
     if (url.pathname === '/api/status' && req.method === 'POST') return setStatus(req, env, url);
     if (url.pathname === '/orders') {
       if (!authed(url, env)) return new Response('Not found', { status: 404 });
