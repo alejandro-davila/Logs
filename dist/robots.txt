@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /orders
+Disallow: /api/
+
+Sitemap: https://knottybynature.lightsandheights.workers.dev/sitemap.xml
