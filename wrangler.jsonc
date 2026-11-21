@@ -4,6 +4,6 @@
   "name": "knottybynature",
   "main": "src/worker.js",
   "compatibility_date": "2026-10-01",
-  "assets": { "directory": "./dist", "binding": "ASSETS" },
+  "assets": { "directory": "./dist", "binding": "ASSETS", "run_worker_first": ["/googleb723e3638a6129a5.html"] },
   "kv_namespaces": [{ "binding": "ORDERS", "id": "65e6b6e693dc4002bb517dd13bd9ebbf" }]
 }

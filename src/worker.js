@@ -194,6 +194,8 @@ document.querySelectorAll('input[data-k]').forEach(c=>c.onchange=async()=>{
 export default {
   async fetch(req, env, ctx) {
     const url = new URL(req.url);
+    if (url.pathname === '/googleb723e3638a6129a5.html') // Google Search Console verification (keep)
+      return new Response('google-site-verification: googleb723e3638a6129a5.html', { headers: { 'content-type': 'text/html; charset=utf-8' } });
     if (url.pathname === '/api/order' && req.method === 'POST') return saveOrder(req, env, ctx, url);
     if (url.pathname === '/api/status' && req.method === 'POST') return setStatus(req, env, url);
     if (url.pathname === '/api/pending') {
