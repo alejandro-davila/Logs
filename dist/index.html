@@ -44,6 +44,7 @@ h2{font-size:clamp(2rem,4vw,3rem);margin:0 0 8px}
 .card.best{border:2px solid var(--ember)}
 .badge{display:inline-block;background:var(--ember);color:#fff;font-size:.75rem;font-weight:700;padding:3px 10px;border-radius:999px;margin-bottom:10px}
 .split{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,5vw,56px);align-items:center}
+.truck{display:block;width:100%;height:auto;border-radius:16px;margin-top:20px}
 .split img{width:100%;border-radius:16px;aspect-ratio:4/5;object-fit:cover}
 .uses{list-style:none;padding:0;margin:0}
 .uses li{padding:12px 0;border-top:1px solid var(--line)}
@@ -90,11 +91,58 @@ dialog::backdrop{background:rgba(20,12,6,.6)}
 .linkbtn{background:none;border:0;color:var(--muted);font:inherit;text-decoration:underline;cursor:pointer}
 .ck .pay-btn{margin:6px 8px 0 0}
 .hp{position:absolute;left:-9999px}
-@media(max-width:820px){.cards,.split,.kit .kit-row{grid-template-columns:1fr}.hero{min-height:440px}}
+.stacks{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+.stacks.four{grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
+.stack{display:flex;flex-direction:column;text-align:center}
+.stack-photo{display:block;width:100%;height:auto;aspect-ratio:1;object-fit:cover;border-radius:12px;margin-bottom:12px}
+.stack svg{width:100%;height:150px;margin:-6px 0 6px}
+.stack h3{font-family:Georgia,serif;font-weight:500;font-size:1.5rem;margin:0}
+.stack .dims{color:var(--muted);margin:2px 0 10px;font-size:.95rem}
+.stack .price{font-size:2.2rem;margin-bottom:14px}
+.stack .price small{font-family:system-ui;font-size:.9rem;color:var(--muted)}
+.stack .cta{margin-top:auto}
+.extras-h{font-family:Georgia,serif;font-weight:500;font-size:1.8rem;margin:40px 0 14px}
+.way{display:grid;gap:clamp(20px,4vw,48px);text-align:center}
+.way{grid-template-columns:563fr 973fr 636fr;align-items:start}
+.way img{display:block;width:100%;height:auto;margin:0 0 10px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.way svg{width:min(220px,80%);height:auto;margin:0 auto 6px;display:block}
+.way h3{font-family:Georgia,serif;font-weight:500;font-size:1.5rem;margin:0 0 8px}
+.way p{color:var(--muted);margin:0 auto;max-width:34ch}
+.towns{text-align:center;border-top:1px solid var(--line);padding-top:clamp(32px,5vw,56px)}
+.towns h2{font-size:clamp(1.6rem,3vw,2.2rem)}
+.towns ul{list-style:none;padding:0;margin:14px 0 0;display:flex;flex-wrap:wrap;justify-content:center;gap:8px 10px}
+.towns li{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:6px 14px;font-weight:600}
+@media(max-width:820px){.cards,.split,.kit .kit-row,.way{grid-template-columns:1fr}.hero{min-height:440px}}
 </style>
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "LocalBusiness", "name": "Knotty by Nature Firewood Co.", "description": "Texas post oak and cedar firewood from our family ranch, sold in 5 log bundles in northwest Austin.", "url": "https://knottybynature.lightsandheights.workers.dev/", "telephone": "+1-737-325-9530", "image": "https://knottybynature.lightsandheights.workers.dev/woods.jpeg", "logo": "https://knottybynature.lightsandheights.workers.dev/logo.png", "priceRange": "$7-$35", "address": {"@type": "PostalAddress", "addressLocality": "Austin", "addressRegion": "TX", "postalCode": "78717", "addressCountry": "US"}, "areaServed": ["Austin", "Cedar Park", "Round Rock", "Leander", "Georgetown", "Liberty Hill", "Brushy Creek", "Avery Ranch"], "makesOffer": [{"@type": "Offer", "name": "Firewood bundle, 5 split logs", "price": "8", "priceCurrency": "USD"}, {"@type": "Offer", "name": "Firewood bundles, 10 or more", "price": "7", "priceCurrency": "USD"}, {"@type": "Offer", "name": "S'mores night kit", "price": "35", "priceCurrency": "USD"}, {"@type": "Offer", "name": "Dad's fire kit", "price": "35", "priceCurrency": "USD"}, {"@type": "Offer", "name": "Her cozy night kit", "price": "35", "priceCurrency": "USD"}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "LocalBusiness", "name": "Knotty by Nature Firewood Co.", "description": "Texas post oak and cedar firewood from our family ranch, sold in 5 log bundles in northwest Austin.", "url": "https://knottybynature.lightsandheights.workers.dev/", "telephone": "+1-737-325-9530", "image": "https://knottybynature.lightsandheights.workers.dev/woods.jpeg", "logo": "https://knottybynature.lightsandheights.workers.dev/logo.png", "priceRange": "$7-$799", "address": {"@type": "PostalAddress", "addressLocality": "Austin", "addressRegion": "TX", "postalCode": "78717", "addressCountry": "US"}, "areaServed": ["Austin", "Cedar Park", "Round Rock", "Leander", "Georgetown", "Liberty Hill", "Brushy Creek", "Avery Ranch"], "makesOffer": [{"@type": "Offer", "name": "Firewood bundle, 5 split logs", "price": "8", "priceCurrency": "USD"}, {"@type": "Offer", "name": "Firewood bundles, 10 or more", "price": "7", "priceCurrency": "USD"}, {"@type": "Offer", "name": "S'mores night kit", "price": "35", "priceCurrency": "USD"}, {"@type": "Offer", "name": "Dad's fire kit", "price": "35", "priceCurrency": "USD"}, {"@type": "Offer", "name": "Her cozy night kit", "price": "35", "priceCurrency": "USD"}, {"@type": "Offer", "name": "Patio Stack firewood, 4 x 4 ft, delivered", "price": "195", "priceCurrency": "USD"}, {"@type": "Offer", "name": "Face cord firewood, 4 x 8 ft, delivered", "price": "340", "priceCurrency": "USD"}, {"@type": "Offer", "name": "Half cord firewood, delivered", "price": "449", "priceCurrency": "USD"}, {"@type": "Offer", "name": "Full cord firewood, delivered", "price": "799", "priceCurrency": "USD"}]}</script>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<defs>
+<symbol id="bobcat" viewBox="0 0 64 84">
+<g transform="rotate(-35 50 70)"><ellipse cx="54" cy="70" rx="8" ry="4.5" fill="#c99a63" stroke="#2a1d14" stroke-width="2"/><path d="M57 66 Q63 70 57 74 Q59 70 57 66 Z" fill="#2a1d14" stroke="#2a1d14" stroke-width="2" stroke-linejoin="round"/></g>
+<ellipse cx="32" cy="62" rx="18" ry="20" fill="#c99a63" stroke="#2a1d14" stroke-width="2"/>
+<ellipse cx="32" cy="66" rx="10" ry="13" fill="#f3e3c8"/>
+<circle cx="20" cy="58" r="1.6" fill="#5a3a22"/><circle cx="44" cy="60" r="1.6" fill="#5a3a22"/><circle cx="22" cy="68" r="1.3" fill="#5a3a22"/><circle cx="43" cy="69" r="1.3" fill="#5a3a22"/><circle cx="17" cy="64" r="1.2" fill="#5a3a22"/><circle cx="47" cy="65" r="1.2" fill="#5a3a22"/><circle cx="25" cy="75" r="1.1" fill="#5a3a22"/><circle cx="40" cy="76" r="1.1" fill="#5a3a22"/>
+<path d="M18 44 L46 44 L32 56 Z" fill="#c8501e" stroke="#2a1d14" stroke-width="1.5" stroke-linejoin="round"/>
+<path d="M19 22 L15 6 L28 17 Z M45 22 L49 6 L36 17 Z" fill="#c99a63" stroke="#2a1d14" stroke-width="2" stroke-linejoin="round"/>
+<path d="M19 19 L17 10 L24 16 Z M45 19 L47 10 L40 16 Z" fill="#f3e3c8"/><path d="M15 6 L17 10 L19 9 Z M49 6 L47 10 L45 9 Z" fill="#2a1d14"/>
+<path d="M15 6 L14 1 M49 6 L50 1" stroke="#2a1d14" stroke-width="2.2" stroke-linecap="round"/>
+<path d="M17 30 L8 40 L19 38 Z M47 30 L56 40 L45 38 Z" fill="#c99a63" stroke="#2a1d14" stroke-width="2" stroke-linejoin="round"/>
+<ellipse cx="32" cy="31" rx="17" ry="15" fill="#c99a63" stroke="#2a1d14" stroke-width="2"/>
+<path d="M29 18 v4 M32 17 v5 M35 18 v4" stroke="#5a3a22" stroke-width="1.6" stroke-linecap="round"/><circle cx="19" cy="34" r="1" fill="#5a3a22"/><circle cx="21" cy="37" r="1" fill="#5a3a22"/><circle cx="45" cy="34" r="1" fill="#5a3a22"/><circle cx="43" cy="37" r="1" fill="#5a3a22"/>
+<ellipse cx="32" cy="38" rx="8" ry="5.5" fill="#f3e3c8"/>
+<circle cx="25" cy="30" r="2.6" fill="#2a1d14"/><circle cx="39" cy="30" r="2.6" fill="#2a1d14"/>
+<circle cx="25.8" cy="29.2" r=".9" fill="#fff"/><circle cx="39.8" cy="29.2" r=".9" fill="#fff"/>
+<path d="M30 35 h4 l-2 2.4 Z" fill="#b5585a"/>
+<path d="M32 37.4 v1.6 M32 39 q-2.5 2 -4 0 M32 39 q2.5 2 4 0" fill="none" stroke="#2a1d14" stroke-width="1.2" stroke-linecap="round"/>
+<path d="M22 38 h-7 M22 40 l-6 2 M42 38 h7 M42 40 l6 2" stroke="#2a1d14" stroke-width=".8"/>
+<ellipse cx="24" cy="81" rx="6" ry="3" fill="#c99a63" stroke="#2a1d14" stroke-width="1.6"/>
+<ellipse cx="40" cy="81" rx="6" ry="3" fill="#c99a63" stroke="#2a1d14" stroke-width="1.6"/>
+</symbol>
+</defs>
+</svg>
 <div class="wrap">
 <nav>
 <a class="logo" href="#"><img src="logo.png" alt="Knotty by Nature logo with two crossed logs"><span><small>Firewood Co.</small></span></a>
@@ -116,6 +164,7 @@ dialog::backdrop{background:rgba(20,12,6,.6)}
 <div class="card best"><span class="badge">Best deal</span><h3>10 or more</h3><div class="price">$7</div><p>Each bundle. Free delivery within 5 miles.</p></div>
 <div class="card"><h3>Pickup</h3><div class="price">78717</div><p>Avery Ranch / Brushy Creek. Text us and we'll set it out for you.</p></div>
 </div>
+<img class="truck" src="truck.jpg" width="944" height="630" loading="lazy" alt="Our bobcat in a flannel shirt sitting on a truck tailgate loaded with firewood bundles, each bundle 16 inches tall and 10 inches across">
 </section>
 
 <section id="order">
@@ -127,6 +176,17 @@ dialog::backdrop{background:rgba(20,12,6,.6)}
 <div class="total">Total: <b id="total">$140</b> <span id="extra"></span></div>
 <button type="button" class="cta" data-item="bundles">Order and pay</button>
 <div class="pay pay-center"><span>Rather text? <a id="send" href="sms:+17373259530">Text my order</a></span></div>
+</div>
+</section>
+
+<section id="stacks">
+<h2>Buy it by the stack</h2>
+<p class="lede">For the fireplace or the smoker all winter. Logs are cut 16 inches long, so every stack is one row deep.</p>
+<div class="stacks four">
+<div class="card stack"><img class="stack-photo" src="stack-patio.jpg" width="800" height="800" loading="lazy" alt="Bobcat mascot next to a 4 by 4 foot rack of split firewood on the ranch"><h3>The Patio Stack</h3><p class="dims">4 ft tall x 4 ft long · about 1/6 cord</p><div class="price">$195<small> delivered</small></div><a class="cta" href="#">Text to order</a></div>
+<div class="card stack best"><img class="stack-photo" src="stack-face-cord.jpg" width="800" height="800" loading="lazy" alt="Bobcat mascot next to a 4 by 8 foot face cord of split firewood"><h3>Face Cord</h3><p class="dims">4 ft tall x 8 ft long · about 1/3 cord</p><div class="price">$340<small> delivered</small></div><a class="cta" href="#">Text to order</a></div>
+<div class="card stack"><img class="stack-photo" src="stack-half-cord.jpg" width="800" height="800" loading="lazy" alt="Bobcat mascot next to a 4 by 12 foot half cord of firewood, with a pickup truck behind"><h3>Half Cord</h3><p class="dims">4 ft tall x 12 ft long · 64 cubic ft</p><div class="price">$449<small> delivered</small></div><a class="cta" href="#">Text to order</a></div>
+<div class="card stack"><img class="stack-photo" src="stack-full-cord.jpg" width="800" height="800" loading="lazy" alt="Bobcat mascot next to a 4 by 24 foot full cord of firewood in the pines"><h3>Full Cord</h3><p class="dims">4 ft tall x 24 ft long · 128 cubic ft</p><div class="price">$799<small> delivered</small></div><a class="cta" href="#">Text to order</a></div>
 </div>
 </section>
 
@@ -194,7 +254,21 @@ dialog::backdrop{background:rgba(20,12,6,.6)}
 <div class="pay pay-center"><span>Pay with Cash App, Venmo, Zelle or cash. Or <a href="sms:+17373259530">text us</a>.</span></div>
 </section>
 
-<p class="lede area">Firewood pickup and delivery in northwest Austin: Avery Ranch, Brushy Creek, Cedar Park, Round Rock, Leander, Georgetown and Liberty Hill.</p>
+<section id="way">
+<h2 style="text-align:center">The Knotty way</h2>
+<p class="lede" style="text-align:center;margin-inline:auto">Meet our bobcat. He keeps an eye on the wood pile.</p>
+<div class="way">
+<div><img src="way-1.jpg" width="562" height="723" loading="lazy" alt="Our bobcat cutting post oak logs with a chainsaw on the ranch"><h3 class="sr">Cut on our ranch</h3><p>Post oak and cedar from our family's land in Central Texas. We cut every log ourselves.</p></div>
+<div><img src="way-2.jpg" width="973" height="724" loading="lazy" alt="Our bobcat family in flannel standing by the log pile and wood splitter"><h3 class="sr">Family run</h3><p>The whole family splits and ties every bundle, kids included.</p></div>
+<div><img src="way-3.jpg" width="636" height="724" loading="lazy" alt="Our bobcat leaning on the family minivan, ready to deliver"><h3 class="sr">Your neighbor</h3><p>We live in northwest Austin. Pick up in 78717, or we'll bring it to you. Text us and you get a real person.</p></div>
+</div>
+</section>
+
+<section class="towns">
+<h2>We deliver to</h2>
+<ul><li>Avery Ranch</li><li>Brushy Creek</li><li>Cedar Park</li><li>Round Rock</li><li>Leander</li><li>Georgetown</li><li>Liberty Hill</li><li>Northwest Austin</li></ul>
+<p class="lede area" style="margin:16px auto 0">Firewood pickup and delivery in northwest Austin. Free delivery within 5 miles of 78717 on 10 or more bundles.</p>
+</section>
 <footer>
 <span>© Knotty by Nature Firewood Co.</span>
 <span>A text is faster than a call. I'm probably splitting wood. 🪓</span>
@@ -249,6 +323,30 @@ box.oninput = () => { const v = parseInt(box.value, 10); if (v >= 1) { n = Math.
 box.onblur = () => { box.value = n; };
 box.onkeydown = e => { if (e.key === 'Enter') box.blur(); };
 show();
+// Stack drawings: log ends, height and length arrows, bobcat on top
+document.querySelectorAll('.stack[data-h]').forEach((c, i) => {
+  const h = +c.dataset.h, l = +c.dataset.l, s = 11, x0 = 48, y0 = 100, w = l * s, ht = h * s;
+  let seed = i * 97 + 7; const rnd = () => (seed = (seed * 9301 + 49297) % 233280) / 233280;
+  let logs = '';
+  for (let y = y0 - 3; y > y0 - ht + 2; y -= 5.2)
+    for (let x = x0 + 3 + ((y0 - y) / 5.2 % 2 ? 2.6 : 0); x < x0 + w - 2; x += 5.4) {
+      const r = 2.5 + rnd() * .9, f = ['#a8733f', '#b9864f', '#9a6a3c', '#c4925a'][Math.floor(rnd() * 4)];
+      logs += '<circle cx="' + x.toFixed(1) + '" cy="' + y.toFixed(1) + '" r="' + r.toFixed(1) + '" fill="' + f + '" stroke="#5a3a22" stroke-width=".6"/>';
+    }
+  const cat = Math.min(40, 18 + ht / 2), tx = x0 + w / 2;
+  c.querySelector('svg').outerHTML = '<svg viewBox="0 0 ' + Math.max(170, x0 + w + 24) + ' 122" preserveAspectRatio="xMidYMax meet" role="img" aria-label="Stack of firewood ' + h + ' feet tall and ' + l + ' feet long">'
+    + '<path d="M' + (x0 - 8) + ' ' + (y0 + 2) + ' h' + (w + 16) + '" stroke="#7a9a4a" stroke-width="6" stroke-linecap="round"/>'
+    + '<rect x="' + x0 + '" y="' + (y0 - ht) + '" width="' + w + '" height="' + ht + '" fill="#6e4a2c" rx="2"/>' + logs
+    + '<g stroke="#2a1d14" stroke-width="1.4" fill="none" stroke-linecap="round"><path d="M' + (x0 - 14) + ' ' + (y0 - ht) + ' v' + ht + ' M' + (x0 - 17) + ' ' + (y0 - ht + 4) + ' l3 -4 l3 4 M' + (x0 - 17) + ' ' + (y0 - 4) + ' l3 4 l3 -4"/>'
+    + '<path d="M' + x0 + ' ' + (y0 + 12) + ' h' + w + ' M' + (x0 + 4) + ' ' + (y0 + 9) + ' l-4 3 l4 3 M' + (x0 + w - 4) + ' ' + (y0 + 9) + ' l4 3 l-4 3"/></g>'
+    + '<text x="' + (x0 - 20) + '" y="' + (y0 - ht / 2 + 4) + '" font-size="11" font-family="Georgia,serif" text-anchor="end" fill="#2a1d14">' + h + ' ft</text>'
+    + '<rect x="' + (tx - 18) + '" y="' + (y0 + 6) + '" width="36" height="12" fill="#fffaf2"/><text x="' + tx + '" y="' + (y0 + 16) + '" font-size="11" font-family="Georgia,serif" text-anchor="middle" fill="#2a1d14">' + l + ' ft</text>'
+    + '<use href="#bobcat" x="' + (x0 + w - cat * .9) + '" y="' + (y0 - ht - cat * 1.25 + 6) + '" width="' + cat + '" height="' + (cat * 1.31) + '"/></svg>';
+});
+// Stacks and extras: text to order
+document.querySelectorAll('.stack').forEach(c => {
+  c.querySelector('.cta').href = 'sms:+17373259530?&body=' + encodeURIComponent('Hi! I would like the ' + c.querySelector('h3').textContent + '.');
+});
 // Checkout: order, customer profile, delivery address, payment
 const KITS = { smores: "S'mores night kit", dads: "Dad's fire kit", hers: "Her cozy night kit" };
 const $ = id => document.getElementById(id);
