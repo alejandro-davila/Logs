@@ -14,6 +14,16 @@ const PAY = ['Cash App', 'Venmo', 'Zelle', 'Cash on delivery'];
 
 const bundlePrice = n => n * (n >= 10 ? 7 : 8);
 
+// Delivery is drop off only. Fee by distance from 78717 (zone 0..4).
+// Kits count as 2 bundles. Zone 4 (over 30 miles) = we text a quote.
+const ZONES = ['Within 5 miles', '5 to 10 miles', '10 to 20 miles', '20 to 30 miles', 'Over 30 miles'];
+function deliveryFee(item, qty, zone) {
+  const bundles = item === 'bundles' ? qty : qty * 2;
+  if (zone === 4) return null;
+  if (bundles >= 30 && zone <= 2) return 0;
+  return [bundles >= 10 ? 0 : 5, 10, 20, 35][zone];
+}
+
 function quote(item, qty) {
   qty = Math.floor(Number(qty));
   if (item === 'bundles') {
@@ -44,6 +54,9 @@ async function saveOrder(req, env, ctx, url) {
   const method = b.method === 'delivery' ? 'delivery' : 'pickup';
   const address = clean(b.address, 200);
   const pay = PAY.includes(b.pay) ? b.pay : null;
+  const zone = method === 'delivery' ? Math.max(0, Math.min(4, Math.floor(Number(b.zone)) || 0)) : -1;
+  const fee = zone >= 0 ? deliveryFee(b.item, q.qty, zone) : 0;
+  const total = q.total + (fee || 0);
 
   if (!name) return json({ error: 'Please add your name.' }, 400);
   if (digits.length < 10) return json({ error: 'Please add a phone number we can text.' }, 400);
@@ -54,7 +67,8 @@ async function saveOrder(req, env, ctx, url) {
   const id = 'K' + now.getTime().toString(36).slice(-5).toUpperCase();
   const order = {
     id, created: now.toISOString(),
-    item: b.item, label: q.label, qty: q.qty, total: q.total,
+    item: b.item, label: q.label, qty: q.qty, subtotal: q.total, fee, total,
+    zone: zone >= 0 ? ZONES[zone] : '',
     name, phone, email: clean(b.email, 120),
     method, address: method === 'delivery' ? address : '',
     notes: clean(b.notes, 400), when: clean(b.when, 80),
@@ -67,7 +81,7 @@ async function saveOrder(req, env, ctx, url) {
     name, phone, email: order.email, address: order.address || undefined, updated: order.created,
   }));
   ctx.waitUntil(notify(env, order, url.origin, okey));
-  return json({ ok: true, id, total: q.total, label: q.label });
+  return json({ ok: true, id, total, fee, label: q.label });
 }
 
 // Push alert to Alejandro's phone (ntfy app, subscribed to the secret topic).
@@ -82,8 +96,9 @@ const PAY_HOW = {
 function smsTo(phone) { return '+1' + String(phone).replace(/\D/g, '').slice(-10); }
 function confirmText(o) {
   const first = String(o.name).split(' ')[0];
-  const where = o.method === 'delivery' ? `Delivering to ${o.address}` : 'Pickup in 78717 (Avery Ranch / Brushy Creek)';
-  return `Hi ${first}, this is Alejandro with Knotty by Nature Firewood. Got your order ${o.id}: ${o.label}, $${o.total}. ` +
+  const where = o.method === 'delivery' ? `Drop off at ${o.address}` : 'Pickup in 78717 (Avery Ranch / Brushy Creek)';
+  const deliv = o.method !== 'delivery' || o.fee === undefined ? '' : o.fee === null ? ' plus delivery (I will text you the price)' : o.fee ? ` (includes $${o.fee} delivery)` : ' (free delivery)';
+  return `Hi ${first}, this is Alejandro with Knotty by Nature Firewood. Got your order ${o.id}: ${o.label}, $${o.total}${deliv}. ` +
     `${where}${o.when ? ', ' + o.when : ''}. Payment: ${PAY_HOW[o.pay] || o.pay}${o.paid ? ' (received, thank you!)' : ''}. ` +
     `I'll text you before I head over. Thanks for your order!`;
 }
@@ -96,7 +111,7 @@ function alertPayload(env, o, origin) {
     message: [
       `${o.label} · $${o.total} · pays by ${o.pay}`,
       `${o.name} · ${o.phone}`,
-      o.method === 'delivery' ? `Deliver to: ${o.address}` : 'Pickup in 78717',
+      o.method === 'delivery' ? `Drop off: ${o.address}` + (o.zone ? ` (${o.zone}, ${o.fee === null ? 'quote delivery' : o.fee ? '$' + o.fee + ' delivery' : 'free delivery'})` : '') : 'Pickup in 78717',
       o.when && `When: ${o.when}`,
       o.notes && `Notes: ${o.notes}`,
     ].filter(Boolean).join('\n'),

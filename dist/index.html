@@ -113,6 +113,10 @@ dialog::backdrop{background:rgba(20,12,6,.6)}
 .towns{text-align:center;border-top:1px solid var(--line);padding-top:clamp(32px,5vw,56px)}
 .towns h2{font-size:clamp(1.6rem,3vw,2.2rem)}
 .towns ul{list-style:none;padding:0;margin:14px 0 0;display:flex;flex-wrap:wrap;justify-content:center;gap:8px 10px}
+.fees{margin:22px auto 0;border-collapse:collapse;text-align:left;font-size:.98rem}
+.fees caption{font-weight:600;margin-bottom:8px}
+.fees th,.fees td{padding:7px 14px;border-bottom:1px solid var(--line)}
+.fees th{font-weight:600}
 .towns li{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:6px 14px;font-weight:600}
 @media(max-width:820px){.cards,.split,.kit .kit-row,.way{grid-template-columns:1fr}.hero{min-height:440px}}
 </style>
@@ -182,7 +186,7 @@ dialog::backdrop{background:rgba(20,12,6,.6)}
 
 <section id="stacks">
 <h2>Buy it by the stack</h2>
-<p class="lede">For the fireplace or the smoker all winter. Logs are cut 16 inches long, so every stack is one row deep. Delivered and unloaded in your driveway. Want it stacked? We'll stack it for a small add-on.</p>
+<p class="lede">For the fireplace or the smoker all winter. Logs are cut 16 inches long, so every stack is one row deep. Delivered free within 20 miles of 78717 (20 to 30 miles, add $35). Drop off only: we unload it in your driveway. Want it stacked? We'll stack it for a small add-on.</p>
 <div class="stacks four">
 <div class="card stack"><img class="stack-photo" src="stack-patio.jpg" width="800" height="800" loading="lazy" alt="Bobcat mascot next to a 4 by 4 foot rack of split firewood on the ranch"><h3>The Patio Stack</h3><p class="dims">4 ft tall x 4 ft long · about 1/6 cord</p><div class="price">$195<small> delivered</small></div><p class="stackup">Stacked for you: +$20</p><a class="cta" href="#">Text to order</a></div>
 <div class="card stack best"><img class="stack-photo" src="stack-face-cord.jpg" width="800" height="800" loading="lazy" alt="Bobcat mascot next to a 4 by 8 foot face cord of split firewood"><h3>Face Cord</h3><p class="dims">4 ft tall x 8 ft long · about 1/3 cord</p><div class="price">$340<small> delivered</small></div><p class="stackup">Stacked for you: +$40</p><a class="cta" href="#">Text to order</a></div>
@@ -268,7 +272,15 @@ dialog::backdrop{background:rgba(20,12,6,.6)}
 <section class="towns">
 <h2>We deliver to</h2>
 <ul><li>Avery Ranch</li><li>Brushy Creek</li><li>Cedar Park</li><li>Round Rock</li><li>Leander</li><li>Georgetown</li><li>Liberty Hill</li><li>Northwest Austin</li></ul>
-<p class="lede area" style="margin:16px auto 0">Firewood pickup and delivery in northwest Austin. Free delivery within 5 miles of 78717 on 10 or more bundles.</p>
+<p class="lede area" style="margin:16px auto 0">Firewood pickup and delivery in northwest Austin. Delivery is drop off only: we unload in your driveway or by your door.</p>
+<table class="fees"><caption>Bundle and kit delivery, miles from 78717</caption>
+<tr><th>Within 5 miles</th><td>Free on 10+ bundles, $5 under 10</td></tr>
+<tr><th>5 to 10 miles</th><td>$10</td></tr>
+<tr><th>10 to 20 miles</th><td>$20</td></tr>
+<tr><th>20 to 30 miles</th><td>$35</td></tr>
+<tr><th>Over 30 miles</th><td>Text us for a price</td></tr>
+</table>
+<p class="lede area" style="margin:12px auto 0">30 or more bundles? Free delivery up to 20 miles.</p>
 </section>
 <footer>
 <span>© Knotty by Nature Firewood Co.</span>
@@ -286,9 +298,10 @@ dialog::backdrop{background:rgba(20,12,6,.6)}
 <label>Pickup or delivery?</label>
 <div class="seg"><label><input type="radio" name="method" value="delivery" checked> Deliver to me</label><label><input type="radio" name="method" value="pickup"> I'll pick up in 78717</label></div>
 <div id="ck-addr-wrap"><label for="ck-addr">Delivery address</label><input type="text" id="ck-addr" autocomplete="street-address" placeholder="Street, city, ZIP">
-<p class="hint">Free delivery within 5 miles of 78717 on 10+ bundles. Farther out, we'll text you.</p></div>
+<label for="ck-zone">How far from 78717?</label><select id="ck-zone"><option value="0">Within 5 miles</option><option value="1">5 to 10 miles</option><option value="2">10 to 20 miles</option><option value="3">20 to 30 miles</option><option value="4">Over 30 miles</option></select>
+<p class="hint">Drop off only. We unload in your driveway or by your door.</p></div>
 <label for="ck-when">Best day and time <small>· optional</small></label><input type="text" id="ck-when" placeholder="Saturday morning">
-<label for="ck-notes">Notes <small>· gate code, where to stack it</small></label><textarea id="ck-notes"></textarea>
+<label for="ck-notes">Notes <small>· gate code, where to drop it</small></label><textarea id="ck-notes"></textarea>
 <label>How do you want to pay?</label>
 <div class="seg"><label><input type="radio" name="pay" value="Cash App" checked> Cash App</label><label><input type="radio" name="pay" value="Venmo"> Venmo</label><label><input type="radio" name="pay" value="Zelle"> Zelle</label><label><input type="radio" name="pay" value="Cash on delivery"> Cash when I get it</label></div>
 <input class="hp" type="text" id="ck-website" tabindex="-1" autocomplete="off" aria-hidden="true">
@@ -307,12 +320,19 @@ dialog::backdrop{background:rgba(20,12,6,.6)}
 <script>
 let n = 20;
 const price = k => k * (k >= 10 ? 7 : 8);
+// Delivery fee by distance (zone 0..4), same rules as the server. Kits count as 2 bundles. null = we text a quote.
+const deliveryFee = (item, qty, zone) => {
+  const b = item === 'bundles' ? qty : qty * 2;
+  if (zone === 4) return null;
+  if (b >= 30 && zone <= 2) return 0;
+  return [b >= 10 ? 0 : 5, 10, 20, 35][zone];
+};
 function show() {
   const t = price(n);
   if (document.activeElement !== document.getElementById('n')) document.getElementById('n').value = n;
   document.getElementById('logs').textContent = (n * 5) + ' logs · about ' + n + (n === 1 ? ' evening' : ' evenings') + ' by the fire';
   document.getElementById('total').textContent = '$' + t;
-  document.getElementById('extra').textContent = n >= 10 ? '· free delivery nearby' : '';
+  document.getElementById('extra').textContent = n >= 30 ? '· free delivery up to 20 miles' : n >= 10 ? '· free delivery within 5 miles' : '· $5 delivery within 5 miles';
   document.getElementById('send').href = 'sms:+17373259530?&body=' + encodeURIComponent(
     'Hi! I’d like ' + n + ' firewood bundle' + (n > 1 ? 's' : '') + ' for $' + t + '.');
 }
@@ -357,24 +377,28 @@ const PROFILE = 'knotty-profile';
 function summary() {
   if (cur.item === 'bundles') { cur.qty = n; cur.total = price(n); cur.label = n + ' firewood bundle' + (n > 1 ? 's' : ''); }
   else { cur.qty = +$('ck-qty').value; cur.total = 35 * cur.qty; cur.label = KITS[cur.item] + (cur.qty > 1 ? ' x' + cur.qty : ''); }
-  $('ck-sum').textContent = cur.label + ' · $' + cur.total;
+  const deliv = document.querySelector('input[name=method]:checked').value === 'delivery';
+  const fee = deliv ? deliveryFee(cur.item, cur.qty, +$('ck-zone').value) : 0;
+  $('ck-sum').textContent = cur.label + ' · $' + cur.total + (!deliv ? '' : fee === null ? ' + delivery (we\'ll text you a price)' : fee ? ' + $' + fee + ' delivery = $' + (cur.total + fee) : ' · free delivery');
 }
 function methodShown() {
   const d = document.querySelector('input[name=method]:checked').value === 'delivery';
   $('ck-addr-wrap').hidden = !d;
+  if (cur) summary();
 }
 document.querySelectorAll('[data-item]').forEach(b => b.onclick = () => {
   cur = { item: b.dataset.item };
   $('ck-kitqty').hidden = cur.item === 'bundles';
   $('ck-qty').value = '1';
   const p = JSON.parse(localStorage.getItem(PROFILE) || '{}');
+  if (p.zone !== undefined) $('ck-zone').value = p.zone;
   $('ck-name').value = p.name || ''; $('ck-phone').value = p.phone || ''; $('ck-email').value = p.email || ''; $('ck-addr').value = p.address || '';
   if (p.method) document.querySelector('input[name=method][value="' + p.method + '"]').checked = true;
   if (p.pay) { const r = document.querySelector('input[name=pay][value="' + p.pay + '"]'); if (r) r.checked = true; }
   $('ck-err').textContent = ''; $('ck-form').hidden = false; $('ck-done').hidden = true;
   summary(); methodShown(); dlg.showModal();
 });
-$('ck-qty').onchange = summary;
+$('ck-qty').onchange = $('ck-zone').onchange = summary;
 document.querySelectorAll('input[name=method]').forEach(r => r.onchange = methodShown);
 $('ck-cancel').onclick = $('ck-close').onclick = () => dlg.close();
 dlg.addEventListener('click', e => { if (e.target === dlg) dlg.close(); });
@@ -383,7 +407,7 @@ $('ck-form').onsubmit = async e => {
   const body = {
     item: cur.item, qty: cur.qty,
     name: $('ck-name').value.trim(), phone: $('ck-phone').value.trim(), email: $('ck-email').value.trim(),
-    method: document.querySelector('input[name=method]:checked').value,
+    method: document.querySelector('input[name=method]:checked').value, zone: +$('ck-zone').value,
     address: $('ck-addr').value.trim(), when: $('ck-when').value.trim(), notes: $('ck-notes').value.trim(),
     pay: document.querySelector('input[name=pay]:checked').value, website: $('ck-website').value,
   };
@@ -395,7 +419,7 @@ $('ck-form').onsubmit = async e => {
     const r = await fetch('/api/order', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body) });
     const d = await r.json();
     if (!r.ok) throw new Error(d.error || 'Something went wrong.');
-    localStorage.setItem(PROFILE, JSON.stringify({ name: body.name, phone: body.phone, email: body.email, address: body.address, method: body.method, pay: body.pay }));
+    localStorage.setItem(PROFILE, JSON.stringify({ name: body.name, phone: body.phone, email: body.email, address: body.address, method: body.method, zone: body.zone, pay: body.pay }));
     const note = encodeURIComponent('Knotty order ' + d.id);
     const pay = {
       'Cash App': '<p>Last step, pay $' + d.total + ':</p><a class="pay-btn" href="https://cash.app/$mralejandrodavila/' + d.total + '" target="_blank" rel="noopener">Pay $' + d.total + ' with Cash App</a><p class="hint">Put ' + d.id + ' in the note.</p>',
@@ -403,7 +427,7 @@ $('ck-form').onsubmit = async e => {
       'Zelle': '<p>Last step, Zelle $' + d.total + ' to <b>512-945-1209</b>. It shows as Yeanette Davila. Put ' + d.id + ' in the memo.</p>',
       'Cash on delivery': '<p>Pay $' + d.total + ' in cash when you get your wood.</p>',
     }[body.pay];
-    $('done-sum').textContent = 'Order ' + d.id + ' · ' + d.label + ' · $' + d.total + (body.method === 'delivery' ? ' · delivering to ' + body.address : ' · pickup in 78717');
+    $('done-sum').textContent = 'Order ' + d.id + ' · ' + d.label + ' · $' + d.total + (body.method === 'delivery' ? (d.fee === null ? ' plus delivery, we\'ll text you the price' : d.fee ? ' (includes $' + d.fee + ' delivery)' : ' (free delivery)') + ' · drop off at ' + body.address : ' · pickup in 78717');
     $('done-pay').innerHTML = pay;
     $('ck-form').hidden = true; $('ck-done').hidden = false;
   } catch (x) {
