@@ -90,6 +90,10 @@ dialog::backdrop{background:rgba(20,12,6,.6)}
 .ck .row{display:flex;gap:10px;align-items:center;justify-content:space-between;margin-top:18px;flex-wrap:wrap}
 .linkbtn{background:none;border:0;color:var(--muted);font:inherit;text-decoration:underline;cursor:pointer}
 .ck .pay-btn{margin:6px 8px 0 0}
+#done-sum{white-space:pre-line;line-height:1.5;color:var(--ink);font-weight:400;background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+#done-sum::first-line{font-weight:700;color:var(--ember)}
+#ck-done .pay-btn{display:block;text-align:center;margin:10px 0 6px;padding:13px 18px}
+#ck-done .row{justify-content:flex-end}
 .hp{position:absolute;left:-9999px}
 .stacks{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
 .stacks.four{grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
@@ -412,7 +416,7 @@ document.querySelectorAll('[data-item]').forEach(b => b.onclick = () => {
   if (st) document.querySelector('input[name=method][value=delivery]').checked = true; // stacks are delivered
   if (p.pay) { const r = document.querySelector('input[name=pay][value="' + p.pay + '"]'); if (r) r.checked = true; }
   $('ck-err').textContent = ''; $('ck-form').hidden = false; $('ck-done').hidden = true;
-  summary(); methodShown(); dlg.showModal();
+  summary(); methodShown(); dlg.showModal(); dlg.scrollTop = 0;
 });
 $('ck-qty').onchange = $('ck-zone').onchange = summary;
 document.querySelectorAll('input[name=stacked]').forEach(r => r.onchange = summary);
@@ -444,9 +448,12 @@ $('ck-form').onsubmit = async e => {
       'Zelle': '<p>Last step, Zelle $' + d.total + ' to <b>512-945-1209</b>. It shows as Yeanette Davila. Put ' + d.id + ' in the memo.</p>',
       'Cash on delivery': '<p>Pay $' + d.total + ' in cash when you get your wood.</p>',
     }[body.pay];
-    $('done-sum').textContent = 'Order ' + d.id + ' · ' + d.label + ' · $' + d.total + (body.method === 'delivery' ? (d.fee === null ? ' plus delivery, we\'ll text you the price' : d.fee ? ' (includes $' + d.fee + ' delivery)' : ' (free delivery)') + ' · drop off at ' + body.address : ' · pickup in 78717');
+    $('done-sum').textContent = ['Order ' + d.id, d.label,
+      '$' + d.total + (body.method === 'delivery' ? (d.fee === null ? ' plus delivery, we\'ll text you the price' : d.fee ? ' (includes $' + d.fee + ' delivery)' : ' (free delivery)') : ''),
+      body.method === 'delivery' ? (cur.stacked ? 'Stacked at ' : 'Drop off at ') + body.address : 'Pickup in 78717'].join('\n');
     $('done-pay').innerHTML = pay;
     $('ck-form').hidden = true; $('ck-done').hidden = false;
+    dlg.scrollTop = 0;
   } catch (x) {
     if (x instanceof TypeError) {
       const txt = 'Hi! I’d like ' + cur.label + ' for $' + cur.total + '. ' + body.name + ', ' + (body.method === 'delivery' ? 'deliver to ' + body.address : 'pickup') + '. Paying by ' + body.pay + '.';
