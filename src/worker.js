@@ -10,22 +10,35 @@ const KITS = {
   dads: { name: "Dad's fire kit", price: 35 },
   hers: { name: "Her cozy night kit", price: 35 },
 };
+// Stacks: price is delivered (unloaded in the driveway); stacking is an add-on.
+const STACKS = {
+  patio: { name: 'Patio Stack (4x4 ft)', price: 149, stack: 20 },
+  face: { name: 'Face Cord (4x8 ft)', price: 249, stack: 30 },
+  half: { name: 'Half Cord (4x12 ft)', price: 349, stack: 40 },
+  full: { name: 'Full Cord (4x24 ft)', price: 649, stack: 80 },
+};
 const PAY = ['Cash App', 'Venmo', 'Zelle', 'Cash on delivery'];
 
 const bundlePrice = n => n * (n >= 10 ? 7 : 8);
 
 // Delivery is drop off only. Fee by distance from 78717 (zone 0..4).
 // Kits count as 2 bundles. Zone 4 (over 30 miles) = we text a quote.
+// Stacks: free up to 20 miles, $35 for 20 to 30.
 const ZONES = ['Within 5 miles', '5 to 10 miles', '10 to 20 miles', '20 to 30 miles', 'Over 30 miles'];
 function deliveryFee(item, qty, zone) {
-  const bundles = item === 'bundles' ? qty : qty * 2;
   if (zone === 4) return null;
+  if (STACKS[item]) return zone === 3 ? 35 : 0;
+  const bundles = item === 'bundles' ? qty : qty * 2;
   if (bundles >= 30 && zone <= 2) return 0;
   return [bundles >= 10 ? 0 : 5, 10, 20, 35][zone];
 }
 
-function quote(item, qty) {
+function quote(item, qty, stacked) {
   qty = Math.floor(Number(qty));
+  const st = STACKS[item];
+  if (st) return stacked
+    ? { label: st.name + ', stacked for you', qty: 1, total: st.price + st.stack }
+    : { label: st.name + ', delivered', qty: 1, total: st.price };
   if (item === 'bundles') {
     if (!(qty >= 1 && qty <= 200)) return null;
     return { label: qty + ' firewood bundle' + (qty > 1 ? 's' : ''), qty, total: bundlePrice(qty) };
@@ -45,13 +58,13 @@ async function saveOrder(req, env, ctx, url) {
   try { b = await req.json(); } catch { return json({ error: 'Bad request' }, 400); }
   if (b.website) return json({ ok: true, id: 'K0' }); // spam trap
 
-  const q = quote(b.item, b.qty);
+  const q = quote(b.item, b.qty, b.stacked === true);
   if (!q) return json({ error: 'That order size is not available.' }, 400);
 
   const name = clean(b.name, 80);
   const phone = clean(b.phone, 30);
   const digits = phone.replace(/\D/g, '');
-  const method = b.method === 'delivery' ? 'delivery' : 'pickup';
+  const method = b.method === 'delivery' || STACKS[b.item] ? 'delivery' : 'pickup';
   const address = clean(b.address, 200);
   const pay = PAY.includes(b.pay) ? b.pay : null;
   const zone = method === 'delivery' ? Math.max(0, Math.min(4, Math.floor(Number(b.zone)) || 0)) : -1;
