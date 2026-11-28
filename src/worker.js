@@ -39,7 +39,7 @@ function quote(item, qty, stacked) {
   if (st) return stacked === 'back'
     ? { label: st.name + ', stacked in the backyard', qty: 1, total: st.price + st.back }
     : stacked
-    ? { label: st.name + ', stacked for you', qty: 1, total: st.price + st.stack }
+    ? { label: st.name + ', stacked out front', qty: 1, total: st.price + st.stack }
     : { label: st.name + ', delivered', qty: 1, total: st.price };
   if (item === 'bundles') {
     if (!(qty >= 1 && qty <= 200)) return null;
