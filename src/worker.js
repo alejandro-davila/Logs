@@ -14,8 +14,8 @@ const KITS = {
 const STACKS = {
   patio: { name: 'Patio Stack (4x4 ft)', price: 149, stack: 20, back: 60 },
   face: { name: 'Face Cord (4x8 ft)', price: 249, stack: 30, back: 125 },
-  half: { name: 'Half Cord (4x12 ft)', price: 349, stack: 40, back: 125 },
-  full: { name: 'Full Cord (4x24 ft)', price: 649, stack: 80, back: 180 },
+  half: { name: 'Half Cord (4x12 ft)', price: 349, stack: 40, back: 180 },
+  full: { name: 'Full Cord (4x24 ft)', price: 649, stack: 80, back: 360 },
 };
 const PAY = ['Cash App', 'Venmo', 'Zelle', 'Cash on delivery'];
 
