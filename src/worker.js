@@ -10,12 +10,12 @@ const KITS = {
   dads: { name: "Dad's fire kit", price: 35 },
   hers: { name: "Her cozy night kit", price: 35 },
 };
-// Stacks: price is delivered (unloaded in the driveway); stacking is an add-on.
+// Stacks: price is delivered (unloaded in the driveway); stacking is an add-on (stack = driveway or by the garage, back = carried to the backyard).
 const STACKS = {
-  patio: { name: 'Patio Stack (4x4 ft)', price: 149, stack: 20 },
-  face: { name: 'Face Cord (4x8 ft)', price: 249, stack: 30 },
-  half: { name: 'Half Cord (4x12 ft)', price: 349, stack: 40 },
-  full: { name: 'Full Cord (4x24 ft)', price: 649, stack: 80 },
+  patio: { name: 'Patio Stack (4x4 ft)', price: 149, stack: 20, back: 125 },
+  face: { name: 'Face Cord (4x8 ft)', price: 249, stack: 30, back: 125 },
+  half: { name: 'Half Cord (4x12 ft)', price: 349, stack: 40, back: 125 },
+  full: { name: 'Full Cord (4x24 ft)', price: 649, stack: 80, back: 180 },
 };
 const PAY = ['Cash App', 'Venmo', 'Zelle', 'Cash on delivery'];
 
@@ -36,7 +36,9 @@ function deliveryFee(item, qty, zone) {
 function quote(item, qty, stacked) {
   qty = Math.floor(Number(qty));
   const st = STACKS[item];
-  if (st) return stacked
+  if (st) return stacked === 'back'
+    ? { label: st.name + ', stacked in the backyard', qty: 1, total: st.price + st.back }
+    : stacked
     ? { label: st.name + ', stacked for you', qty: 1, total: st.price + st.stack }
     : { label: st.name + ', delivered', qty: 1, total: st.price };
   if (item === 'bundles') {
@@ -58,7 +60,7 @@ async function saveOrder(req, env, ctx, url) {
   try { b = await req.json(); } catch { return json({ error: 'Bad request' }, 400); }
   if (b.website) return json({ ok: true, id: 'K0' }); // spam trap
 
-  const q = quote(b.item, b.qty, b.stacked === true);
+  const q = quote(b.item, b.qty, b.stacked === 'back' ? 'back' : b.stacked === true || b.stacked === 'yes');
   if (!q) return json({ error: 'That order size is not available.' }, 400);
 
   const name = clean(b.name, 80);

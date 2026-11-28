@@ -190,12 +190,12 @@ dialog::backdrop{background:rgba(20,12,6,.6)}
 
 <section id="stacks">
 <h2>Buy it by the stack</h2>
-<p class="lede">For the fireplace or the smoker all winter. Logs are cut 16 inches long, so every stack is one row deep. Delivered free within 20 miles of 78717 (20 to 30 miles, add $35). Drop off only: we unload it in your driveway. Want it stacked? We'll stack it for a small add-on.</p>
+<p class="lede">For the fireplace or the smoker all winter. Logs are cut 16 inches long, so every stack is one row deep. Delivered free within 20 miles of 78717 (20 to 30 miles, add $35). Drop off only: we unload it in your driveway. Want it stacked? We'll stack it by the driveway or wheel it to the backyard for an add-on.</p>
 <div class="stacks four">
-<div class="card stack"><img class="stack-photo" src="stack-patio.jpg" width="800" height="800" loading="lazy" alt="Bobcat mascot next to a 4 by 4 foot rack of split firewood on the ranch"><h3>The Patio Stack</h3><p class="dims">4 ft tall x 4 ft long · about 1/6 cord</p><div class="price">$149<small> delivered</small></div><p class="stackup">Stacked for you: +$20</p><button type="button" class="cta" data-item="patio">Order · $149</button></div>
-<div class="card stack best"><img class="stack-photo" src="stack-face-cord.jpg" width="800" height="800" loading="lazy" alt="Bobcat mascot next to a 4 by 8 foot face cord of split firewood"><h3>Face Cord</h3><p class="dims">4 ft tall x 8 ft long · about 1/3 cord</p><div class="price">$249<small> delivered</small></div><p class="stackup">Stacked for you: +$30</p><button type="button" class="cta" data-item="face">Order · $249</button></div>
-<div class="card stack"><img class="stack-photo" src="stack-half-cord.jpg" width="800" height="800" loading="lazy" alt="Bobcat mascot next to a 4 by 12 foot half cord of firewood, with a pickup truck behind"><h3>Half Cord</h3><p class="dims">4 ft tall x 12 ft long · 64 cubic ft</p><div class="price">$349<small> delivered</small></div><p class="stackup">Stacked for you: +$40</p><button type="button" class="cta" data-item="half">Order · $349</button></div>
-<div class="card stack"><img class="stack-photo" src="stack-full-cord.jpg" width="800" height="800" loading="lazy" alt="Bobcat mascot next to a 4 by 24 foot full cord of firewood in the pines"><h3>Full Cord</h3><p class="dims">4 ft tall x 24 ft long · 128 cubic ft</p><div class="price">$649<small> delivered</small></div><p class="stackup">Stacked for you: +$80</p><button type="button" class="cta" data-item="full">Order · $649</button></div>
+<div class="card stack"><img class="stack-photo" src="stack-patio.jpg" width="800" height="800" loading="lazy" alt="Bobcat mascot next to a 4 by 4 foot rack of split firewood on the ranch"><h3>The Patio Stack</h3><p class="dims">4 ft tall x 4 ft long · about 1/6 cord</p><div class="price">$149<small> delivered</small></div><p class="stackup">Stacked by the driveway: +$20<br>In the backyard: +$125</p><button type="button" class="cta" data-item="patio">Order · $149</button></div>
+<div class="card stack best"><img class="stack-photo" src="stack-face-cord.jpg" width="800" height="800" loading="lazy" alt="Bobcat mascot next to a 4 by 8 foot face cord of split firewood"><h3>Face Cord</h3><p class="dims">4 ft tall x 8 ft long · about 1/3 cord</p><div class="price">$249<small> delivered</small></div><p class="stackup">Stacked by the driveway: +$30<br>In the backyard: +$125</p><button type="button" class="cta" data-item="face">Order · $249</button></div>
+<div class="card stack"><img class="stack-photo" src="stack-half-cord.jpg" width="800" height="800" loading="lazy" alt="Bobcat mascot next to a 4 by 12 foot half cord of firewood, with a pickup truck behind"><h3>Half Cord</h3><p class="dims">4 ft tall x 12 ft long · 64 cubic ft</p><div class="price">$349<small> delivered</small></div><p class="stackup">Stacked by the driveway: +$40<br>In the backyard: +$125</p><button type="button" class="cta" data-item="half">Order · $349</button></div>
+<div class="card stack"><img class="stack-photo" src="stack-full-cord.jpg" width="800" height="800" loading="lazy" alt="Bobcat mascot next to a 4 by 24 foot full cord of firewood in the pines"><h3>Full Cord</h3><p class="dims">4 ft tall x 24 ft long · 128 cubic ft</p><div class="price">$649<small> delivered</small></div><p class="stackup">Stacked by the driveway: +$80<br>In the backyard: +$180</p><button type="button" class="cta" data-item="full">Order · $649</button></div>
 </div>
 </section>
 
@@ -247,7 +247,7 @@ dialog::backdrop{background:rgba(20,12,6,.6)}
 <h2 id="ck-title">Your order</h2>
 <p class="sum" id="ck-sum"></p>
 <div id="ck-kitqty" hidden><label for="ck-qty">How many kits?</label><select id="ck-qty"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></div>
-<div id="ck-stackwrap" hidden><label>Stacking</label><div class="seg"><label><input type="radio" name="stacked" value="no" checked> Drop it off</label><label><input type="radio" name="stacked" value="yes"> Stack it for me <span id="ck-stackfee"></span></label></div></div>
+<div id="ck-stackwrap" hidden><label>Stacking</label><div class="seg"><label><input type="radio" name="stacked" value="no" checked> Drop it off</label><label><input type="radio" name="stacked" value="yes"> Stack it by the driveway <span id="ck-stackfee"></span></label><label><input type="radio" name="stacked" value="back"> Stack it in the backyard <span id="ck-backfee"></span></label></div></div>
 <label for="ck-name">Name</label><input type="text" id="ck-name" autocomplete="name" required>
 <label for="ck-phone">Phone <small>· we text to confirm</small></label><input type="tel" id="ck-phone" autocomplete="tel" required>
 <label for="ck-email">Email <small>· optional</small></label><input type="email" id="ck-email" autocomplete="email">
@@ -279,10 +279,10 @@ const price = k => k * (k >= 10 ? 7 : 8);
 // Delivery fee by distance (zone 0..4), same rules as the server. Kits count as 2 bundles. null = we text a quote.
 // Stacks: free up to 20 miles, $35 for 20 to 30.
 const STACKS = {
-  patio: { name: 'Patio Stack (4x4 ft)', price: 149, stack: 20 },
-  face: { name: 'Face Cord (4x8 ft)', price: 249, stack: 30 },
-  half: { name: 'Half Cord (4x12 ft)', price: 349, stack: 40 },
-  full: { name: 'Full Cord (4x24 ft)', price: 649, stack: 80 },
+  patio: { name: 'Patio Stack (4x4 ft)', price: 149, stack: 20, back: 125 },
+  face: { name: 'Face Cord (4x8 ft)', price: 249, stack: 30, back: 125 },
+  half: { name: 'Half Cord (4x12 ft)', price: 349, stack: 40, back: 125 },
+  full: { name: 'Full Cord (4x24 ft)', price: 649, stack: 80, back: 180 },
 };
 const deliveryFee = (item, qty, zone) => {
   if (zone === 4) return null;
@@ -339,10 +339,12 @@ function summary() {
   $('ck-drop').textContent = 'Drop off only. We unload in your driveway or by your door.';
   if (cur.item === 'bundles') { cur.qty = n; cur.total = price(n); cur.label = n + ' firewood bundle' + (n > 1 ? 's' : ''); }
   else if (st) {
-    cur.stacked = document.querySelector('input[name=stacked]:checked').value === 'yes';
-    cur.qty = 1; cur.total = st.price + (cur.stacked ? st.stack : 0);
-    cur.label = st.name + (cur.stacked ? ', stacked for you' : ', delivered');
-    if (cur.stacked) $('ck-drop').textContent = 'We stack it where you want it. Tell us the spot in the notes.';
+    const sv = document.querySelector('input[name=stacked]:checked').value;
+    cur.stacked = sv === 'no' ? false : sv;
+    cur.qty = 1; cur.total = st.price + (sv === 'back' ? st.back : sv === 'yes' ? st.stack : 0);
+    cur.label = st.name + (sv === 'back' ? ', stacked in the backyard' : sv === 'yes' ? ', stacked for you' : ', delivered');
+    if (sv === 'yes') $('ck-drop').textContent = 'We stack it in the driveway or by the garage. Tell us the spot in the notes.';
+    if (sv === 'back') $('ck-drop').textContent = 'We wheel it back and stack it. Gate at least 3 ft wide, within 100 ft of the truck, no stairs. Farther? Text us.';
   } else { cur.qty = +$('ck-qty').value; cur.total = 35 * cur.qty; cur.label = KITS[cur.item] + (cur.qty > 1 ? ' x' + cur.qty : ''); }
   const deliv = document.querySelector('input[name=method]:checked').value === 'delivery';
   const fee = deliv ? deliveryFee(cur.item, cur.qty, +$('ck-zone').value) : 0;
@@ -358,7 +360,7 @@ document.querySelectorAll('[data-item]').forEach(b => b.onclick = () => {
   const st = STACKS[cur.item];
   $('ck-kitqty').hidden = cur.item === 'bundles' || !!st;
   $('ck-stackwrap').hidden = !st; $('ck-method-wrap').hidden = !!st;
-  if (st) { $('ck-stackfee').textContent = '· +$' + st.stack; document.querySelector('input[name=stacked][value=no]').checked = true; }
+  if (st) { $('ck-stackfee').textContent = '· +$' + st.stack; $('ck-backfee').textContent = '· +$' + st.back; document.querySelector('input[name=stacked][value=no]').checked = true; }
   $('ck-qty').value = '1';
   const p = JSON.parse(localStorage.getItem(PROFILE) || '{}');
   if (p.zone !== undefined) $('ck-zone').value = p.zone;
@@ -377,7 +379,7 @@ dlg.addEventListener('click', e => { if (e.target === dlg) dlg.close(); });
 $('ck-form').onsubmit = async e => {
   e.preventDefault();
   const body = {
-    item: cur.item, qty: cur.qty, stacked: !!cur.stacked,
+    item: cur.item, qty: cur.qty, stacked: cur.stacked || false,
     name: $('ck-name').value.trim(), phone: $('ck-phone').value.trim(), email: $('ck-email').value.trim(),
     method: document.querySelector('input[name=method]:checked').value, zone: +$('ck-zone').value,
     address: $('ck-addr').value.trim(), when: $('ck-when').value.trim(), notes: $('ck-notes').value.trim(),
@@ -401,7 +403,7 @@ $('ck-form').onsubmit = async e => {
     }[body.pay];
     $('done-sum').textContent = ['Order ' + d.id, d.label,
       '$' + d.total + (body.method === 'delivery' ? (d.fee === null ? ' plus delivery, we\'ll text you the price' : d.fee ? ' (includes $' + d.fee + ' delivery)' : ' (free delivery)') : ''),
-      body.method === 'delivery' ? (cur.stacked ? 'Stacked at ' : 'Drop off at ') + body.address : 'Pickup in 78717'].join('\n');
+      body.method === 'delivery' ? (cur.stacked === 'back' ? 'Stacked in the backyard at ' : cur.stacked ? 'Stacked at ' : 'Drop off at ') + body.address : 'Pickup in 78717'].join('\n');
     $('done-pay').innerHTML = pay;
     $('ck-form').hidden = true; $('ck-done').hidden = false;
     dlg.scrollTop = 0;
